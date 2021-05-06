@@ -1,0 +1,4 @@
+com/br/API/GamesRating/GamesRatingApplication.java
+ com.br.API.GamesRating.GamesRatingApplication
+com/br/API/GamesRating/model/User.java
+ com.br.API.GamesRating.model.User
