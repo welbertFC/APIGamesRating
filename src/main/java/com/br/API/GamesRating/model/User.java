@@ -4,13 +4,12 @@ package com.br.API.GamesRating.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,4 +28,12 @@ public class User implements Serializable {
     private String type;
     private LocalDateTime dateCreated;
 
+    @OneToMany(mappedBy = "user")
+    private List<Note> notes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Evaluation> evaluations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Likedit> likedits = new ArrayList<>();
 }
