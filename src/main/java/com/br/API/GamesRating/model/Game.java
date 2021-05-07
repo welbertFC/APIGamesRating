@@ -1,6 +1,7 @@
 package com.br.API.GamesRating.model;
 
 import com.br.API.GamesRating.dto.GameDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,6 @@ public class Game implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String title;
 
     @Column(name="DESCRIPTION", nullable=false, length=900)
