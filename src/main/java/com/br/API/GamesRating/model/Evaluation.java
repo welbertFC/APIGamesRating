@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class Evaluation implements Serializable {
     private Integer id;
 
     private String review;
+
+    private LocalDateTime dateCreated;
 
     @ManyToOne
     @JoinColumn(name = "game_id")

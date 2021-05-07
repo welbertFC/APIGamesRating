@@ -1,14 +1,17 @@
 package com.br.API.GamesRating.model;
 
 
+import com.br.API.GamesRating.dto.ListUserDTO;
+import com.br.API.GamesRating.dto.NewUserDTO;
+import com.br.API.GamesRating.dto.UpdateUserDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,7 +27,7 @@ public class User implements Serializable {
     private String nickName;
     private String email;
     private String password;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String type;
     private LocalDateTime dateCreated;
 
@@ -36,4 +39,25 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     private List<Likedit> likedits = new ArrayList<>();
+
+    public User(NewUserDTO userDTO) {
+        this.name = userDTO.getName();
+        this.nickName = userDTO.getNickName();
+        this.email = userDTO.getEmail();
+        this.password = userDTO.getPassword();
+        this.birthDate = userDTO.getBirthDate();
+        this.type = "U";
+        this.dateCreated = LocalDateTime.now();
+    }
+
+    public User(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
+        this.id = id;
+        this.name = userDTO.getName();
+        this.nickName = userDTO.getNickName();
+        this.email = listUserDTO.getEmail();
+        this.password = userDTO.getPassword();
+        this.birthDate = userDTO.getBirthDate();
+        this.type = listUserDTO.getType();
+        this.dateCreated = listUserDTO.getDateCreated();
+    }
 }

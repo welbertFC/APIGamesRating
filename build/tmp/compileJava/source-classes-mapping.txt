@@ -1,12 +1,32 @@
-com/br/API/GamesRating/model/Evaluation.java
- com.br.API.GamesRating.model.Evaluation
-com/br/API/GamesRating/model/Likedit.java
- com.br.API.GamesRating.model.Likedit
+com/br/API/GamesRating/exception/ObjectNotSaveException.java
+ com.br.API.GamesRating.exception.ObjectNotSaveException
 com/br/API/GamesRating/GamesRatingApplication.java
  com.br.API.GamesRating.GamesRatingApplication
+com/br/API/GamesRating/dto/NewUserDTO.java
+ com.br.API.GamesRating.dto.NewUserDTO
+com/br/API/GamesRating/exception/ResourceExceptionHandler.java
+ com.br.API.GamesRating.exception.ResourceExceptionHandler
+com/br/API/GamesRating/exception/StandardException.java
+ com.br.API.GamesRating.exception.StandardException
 com/br/API/GamesRating/model/Game.java
  com.br.API.GamesRating.model.Game
+com/br/API/GamesRating/exception/ObjectNotFoundException.java
+ com.br.API.GamesRating.exception.ObjectNotFoundException
+com/br/API/GamesRating/model/Evaluation.java
+ com.br.API.GamesRating.model.Evaluation
+com/br/API/GamesRating/repository/UserRepository.java
+ com.br.API.GamesRating.repository.UserRepository
+com/br/API/GamesRating/dto/ListUserDTO.java
+ com.br.API.GamesRating.dto.ListUserDTO
+com/br/API/GamesRating/dto/UpdateUserDTO.java
+ com.br.API.GamesRating.dto.UpdateUserDTO
 com/br/API/GamesRating/model/User.java
  com.br.API.GamesRating.model.User
 com/br/API/GamesRating/model/Note.java
  com.br.API.GamesRating.model.Note
+com/br/API/GamesRating/model/Likedit.java
+ com.br.API.GamesRating.model.Likedit
+com/br/API/GamesRating/controller/UserController.java
+ com.br.API.GamesRating.controller.UserController
+com/br/API/GamesRating/service/UserService.java
+ com.br.API.GamesRating.service.UserService
