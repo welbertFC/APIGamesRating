@@ -42,15 +42,11 @@ public class NoteService {
         var game = gameService.findById(newNoteDTO.getGame());
         var user = userOptional.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado id: " + newNoteDTO.getUser()));
         var notes = findAll();
-        notes.stream().filter(obj -> {
+        notes.forEach(obj -> {
             if (obj.getUser().getId().equals(newNoteDTO.getUser()) && obj.getGame().getId().equals(newNoteDTO.getGame())) {
                 throw new ObjectNotSaveException("O Usuario: " + obj.getUser().getName()
                         + " Já avaliou o jogo: " + obj.getGame().getTitle());
-            }
-            return false;
-        }).collect(Collectors.toList());
-
-        var note = new Note(newNoteDTO, user, game);
-        return note;
+        }});
+        return new Note(newNoteDTO, user, game);
     }
 }

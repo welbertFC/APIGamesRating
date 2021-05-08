@@ -36,5 +36,4 @@ public class Note implements Serializable {
         this.game = game;
     }
 
-
 }

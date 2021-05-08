@@ -6,6 +6,7 @@ import com.br.API.GamesRating.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,7 +21,11 @@ public class NoteController {
     @PostMapping
     public ResponseEntity<Note> insert(@Valid @RequestBody NewNoteDTO newNoteDTO){
         var note = noteService.insert(newNoteDTO);
-        return ResponseEntity.ok().body(note);
+        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(note.getId())
+                .toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/game/{id}")
