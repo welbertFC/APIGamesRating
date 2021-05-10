@@ -1,9 +1,11 @@
 package com.br.API.GamesRating.service;
 
-import com.br.API.GamesRating.dto.GameDTO;
+import com.br.API.GamesRating.dto.ListGameDTO;
+import com.br.API.GamesRating.dto.NewGameDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.repository.GameRepository;
+import com.br.API.GamesRating.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,14 @@ public class GameService {
     @Autowired
     private GameRepository gameRepository;
 
-    public Game findById(Integer id){
-        var game = gameRepository.findById(id);
-        return game.orElseThrow(() -> new ObjectNotFoundException("Game não encontrado id: " + id));
+    @Autowired
+    private NoteRepository noteRepository;
+
+    public ListGameDTO findById(Integer id){
+        var gameOptional = gameRepository.findById(id);
+        var game = gameOptional.orElseThrow(() -> new ObjectNotFoundException("Game não encontrado id: " + id));
+        var note = noteRepository.avgNote(id);
+        return new ListGameDTO(note, game);
     }
 
     public List<Game> findAll(){
@@ -28,11 +35,11 @@ public class GameService {
     }
 
 
-    public Game insert(GameDTO game){
+    public Game insert(NewGameDTO game){
         return gameRepository.save(new Game(game));
     }
 
-    public Game update(Integer id, GameDTO game){
+    public Game update(Integer id, NewGameDTO game){
         findById(id);
         return gameRepository.save(new Game(id, game));
     }

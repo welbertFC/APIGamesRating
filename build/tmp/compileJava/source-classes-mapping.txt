@@ -1,25 +1,39 @@
-com/br/API/GamesRating/dto/NewEvaluationDTO.java
- com.br.API.GamesRating.dto.NewEvaluationDTO
 com/br/API/GamesRating/dto/NewUserDTO.java
  com.br.API.GamesRating.dto.NewUserDTO
+com/br/API/GamesRating/repository/GameRepository.java
+ com.br.API.GamesRating.repository.GameRepository
+com/br/API/GamesRating/exception/ResourceExceptionHandler.java
+ com.br.API.GamesRating.exception.ResourceExceptionHandler
+com/br/API/GamesRating/service/GameService.java
+ com.br.API.GamesRating.service.GameService
 com/br/API/GamesRating/dto/ListEvaluationDTO.java
  com.br.API.GamesRating.dto.ListEvaluationDTO
-com/br/API/GamesRating/repository/NoteRepository.java
- com.br.API.GamesRating.repository.NoteRepository
 com/br/API/GamesRating/model/User.java
  com.br.API.GamesRating.model.User
-com/br/API/GamesRating/service/UserService.java
- com.br.API.GamesRating.service.UserService
+com/br/API/GamesRating/repository/NoteRepository.java
+ com.br.API.GamesRating.repository.NoteRepository
+com/br/API/GamesRating/dto/UpdateUserDTO.java
+ com.br.API.GamesRating.dto.UpdateUserDTO
+com/br/API/GamesRating/exception/ObjectNotFoundException.java
+ com.br.API.GamesRating.exception.ObjectNotFoundException
+com/br/API/GamesRating/dto/ListUserDTO.java
+ com.br.API.GamesRating.dto.ListUserDTO
 com/br/API/GamesRating/model/Evaluation.java
  com.br.API.GamesRating.model.Evaluation
 com/br/API/GamesRating/controller/GameController.java
  com.br.API.GamesRating.controller.GameController
-com/br/API/GamesRating/model/Likedit.java
- com.br.API.GamesRating.model.Likedit
+com/br/API/GamesRating/dto/NewLikeditDTO.java
+ com.br.API.GamesRating.dto.NewLikeditDTO
+com/br/API/GamesRating/controller/NoteController.java
+ com.br.API.GamesRating.controller.NoteController
+com/br/API/GamesRating/model/enums/LikeditEnum.java
+ com.br.API.GamesRating.model.enums.LikeditEnum
+com/br/API/GamesRating/controller/EvaluationController.java
+ com.br.API.GamesRating.controller.EvaluationController
 com/br/API/GamesRating/repository/EvaluationRepository.java
  com.br.API.GamesRating.repository.EvaluationRepository
-com/br/API/GamesRating/model/Note.java
- com.br.API.GamesRating.model.Note
+com/br/API/GamesRating/dto/NewEvaluationDTO.java
+ com.br.API.GamesRating.dto.NewEvaluationDTO
 com/br/API/GamesRating/exception/ObjectNotSaveException.java
  com.br.API.GamesRating.exception.ObjectNotSaveException
 com/br/API/GamesRating/dto/GameDTO.java
@@ -28,31 +42,37 @@ com/br/API/GamesRating/GamesRatingApplication.java
  com.br.API.GamesRating.GamesRatingApplication
 com/br/API/GamesRating/exception/StandardException.java
  com.br.API.GamesRating.exception.StandardException
-com/br/API/GamesRating/exception/ResourceExceptionHandler.java
- com.br.API.GamesRating.exception.ResourceExceptionHandler
+com/br/API/GamesRating/model/Note.java
+ com.br.API.GamesRating.model.Note
 com/br/API/GamesRating/dto/NewNoteDTO.java
  com.br.API.GamesRating.dto.NewNoteDTO
+com/br/API/GamesRating/model/Likedit.java
+ com.br.API.GamesRating.model.Likedit
 com/br/API/GamesRating/model/Game.java
  com.br.API.GamesRating.model.Game
-com/br/API/GamesRating/service/EvaluationService.java
- com.br.API.GamesRating.service.EvaluationService
 com/br/API/GamesRating/controller/UserController.java
  com.br.API.GamesRating.controller.UserController
-com/br/API/GamesRating/dto/ListUserDTO.java
- com.br.API.GamesRating.dto.ListUserDTO
-com/br/API/GamesRating/exception/ObjectNotFoundException.java
- com.br.API.GamesRating.exception.ObjectNotFoundException
-com/br/API/GamesRating/repository/UserRepository.java
- com.br.API.GamesRating.repository.UserRepository
-com/br/API/GamesRating/dto/UpdateUserDTO.java
- com.br.API.GamesRating.dto.UpdateUserDTO
-com/br/API/GamesRating/repository/GameRepository.java
- com.br.API.GamesRating.repository.GameRepository
-com/br/API/GamesRating/service/GameService.java
- com.br.API.GamesRating.service.GameService
+com/br/API/GamesRating/dto/UpdateLikeditDTO.java
+ com.br.API.GamesRating.dto.UpdateLikeditDTO
+com/br/API/GamesRating/controller/LikeditController.java
+ com.br.API.GamesRating.controller.LikeditController
+com/br/API/GamesRating/service/LikeditService.java
+ com.br.API.GamesRating.service.LikeditService
+com/br/API/GamesRating/repository/LikeditRepository.java
+ com.br.API.GamesRating.repository.LikeditRepository
+com/br/API/GamesRating/repository/criteria/FeedRepositoryImpl.java
+ com.br.API.GamesRating.repository.criteria.FeedRepositoryImpl
+com/br/API/GamesRating/service/EvaluationService.java
+ com.br.API.GamesRating.service.EvaluationService
+com/br/API/GamesRating/repository/criteria/FeedRepositoryCustom.java
+ com.br.API.GamesRating.repository.criteria.FeedRepositoryCustom
 com/br/API/GamesRating/service/NoteService.java
  com.br.API.GamesRating.service.NoteService
-com/br/API/GamesRating/controller/NoteController.java
- com.br.API.GamesRating.controller.NoteController
-com/br/API/GamesRating/controller/EvaluationController.java
- com.br.API.GamesRating.controller.EvaluationController
+com/br/API/GamesRating/service/UserService.java
+ com.br.API.GamesRating.service.UserService
+com/br/API/GamesRating/repository/UserRepository.java
+ com.br.API.GamesRating.repository.UserRepository
+com/br/API/GamesRating/dto/FeedDTO.java
+ com.br.API.GamesRating.dto.FeedDTO
+com/br/API/GamesRating/service/FeedService.java
+ com.br.API.GamesRating.service.FeedService

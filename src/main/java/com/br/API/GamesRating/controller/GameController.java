@@ -1,6 +1,6 @@
 package com.br.API.GamesRating.controller;
 
-import com.br.API.GamesRating.dto.GameDTO;
+import com.br.API.GamesRating.dto.NewGameDTO;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class GameController {
     }
 
     @PostMapping
-    private ResponseEntity<Game> insert(@Valid @RequestBody GameDTO game){
+    private ResponseEntity<Game> insert(@Valid @RequestBody NewGameDTO game){
         var newGame = gameService.insert(game);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -41,7 +41,7 @@ public class GameController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<Game> update(@Valid @RequestBody GameDTO game, @PathVariable Integer id){
+    private ResponseEntity<Game> update(@Valid @RequestBody NewGameDTO game, @PathVariable Integer id){
         var updateGame = gameService.update(id, game);
         return ResponseEntity.ok().body(updateGame);
     }

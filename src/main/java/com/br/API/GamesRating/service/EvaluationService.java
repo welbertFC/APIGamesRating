@@ -31,6 +31,11 @@ public class EvaluationService {
         return evaluationRepository.save(evaluation);
    }
 
+   public Evaluation findById(Integer id){
+        var evaluation = evaluationRepository.findById(id);
+        return evaluation.orElseThrow(() -> new ObjectNotFoundException("Avaliação nao encontarda id: " + id));
+   }
+
     private List<Evaluation> findAll(){
         return evaluationRepository.findAll();
     }
