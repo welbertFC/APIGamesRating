@@ -4,9 +4,6 @@ import com.br.API.GamesRating.model.Game;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.NamedEntityGraph;
-
 @Data
 @NoArgsConstructor
 public class ListGameDTO {

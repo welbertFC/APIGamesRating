@@ -10,4 +10,8 @@ import java.util.List;
 public interface LikeditRepository extends JpaRepository<Likedit, Integer> {
 
     List<Likedit> findByEvaluation_Id(Integer id);
+
+    Likedit findByUser_IdAndAndEvaluation_Id(Integer idUser, Integer idEvaluation);
+
+
 }

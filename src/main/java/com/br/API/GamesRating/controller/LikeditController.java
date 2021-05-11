@@ -19,7 +19,7 @@ public class LikeditController {
     private LikeditService likeditService;
 
     @PostMapping
-    public ResponseEntity<Likedit> insert(@Valid  @RequestBody NewLikeditDTO likeditDTO){
+    public ResponseEntity<Likedit> insert(@Valid @RequestBody NewLikeditDTO likeditDTO) {
         var likedit = likeditService.insert(likeditDTO);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -28,9 +28,9 @@ public class LikeditController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Likedit> update(@Valid @RequestBody UpdateLikeditDTO likeditDTO, @PathVariable Integer id){
-        var likedit = likeditService.update(id, likeditDTO);
+    @PutMapping("/user/{idUser}/evaluation/{idEvaluation}")
+    public ResponseEntity<Likedit> update(@Valid @RequestBody UpdateLikeditDTO likeditDTO, @PathVariable Integer idUser, @PathVariable Integer idEvaluation) {
+        var likedit = likeditService.update(idEvaluation, idUser, likeditDTO);
         return ResponseEntity.ok().body(likedit);
     }
 }
