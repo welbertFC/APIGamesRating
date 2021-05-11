@@ -5,12 +5,14 @@ import com.br.API.GamesRating.dto.UpdateLikeditDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Likedit;
+import com.br.API.GamesRating.model.enums.LikeditEnum;
 import com.br.API.GamesRating.repository.LikeditRepository;
 import com.br.API.GamesRating.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LikeditService {
@@ -43,11 +45,11 @@ public class LikeditService {
        return likeditRepository.save(new Likedit(id, linkedit, likeditDTO));
     }
 
-    public Integer sumLike(Integer id){
-        var listLike = likeditRepository.findByEvaluation_Id(id);
-        listLike.stream().filter(obj -> obj.getLikeDit().equals(1));
+    public Integer sumLike(Integer idEvaluation){
+        var listLike = likeditRepository.findByEvaluation_Id(idEvaluation);
+        var likeList =  listLike.stream().filter(obj -> obj.getLikeDit().equals(LikeditEnum.LIKE)).collect(Collectors.toList());
         var sumlike = 0;
-        var like = listLike.size();
+        var like = likeList.size();
         while (like > 0){
             sumlike += 1;
             like --;
@@ -55,11 +57,11 @@ public class LikeditService {
         return sumlike;
     }
 
-    public Integer sumDisLike(Integer id){
-        var listLike = likeditRepository.findByEvaluation_Id(id);
-        listLike.stream().filter(obj -> obj.getLikeDit().equals(2));
+    public Integer sumDisLike(Integer idEvaluation){
+        var listLike = likeditRepository.findByEvaluation_Id(idEvaluation);
+        var dislike = listLike.stream().filter(obj -> obj.getLikeDit().equals(LikeditEnum.DISLIKE)).collect(Collectors.toList());
         var sumDislike = 0;
-        var like = listLike.size();
+        var like = dislike.size();
         while (like > 0){
             sumDislike += 1;
             like --;

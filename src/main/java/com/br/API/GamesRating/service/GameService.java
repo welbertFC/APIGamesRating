@@ -9,6 +9,7 @@ import com.br.API.GamesRating.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,17 +22,26 @@ public class GameService {
     @Autowired
     private NoteRepository noteRepository;
 
-    public ListGameDTO findById(Integer id){
+    public Game findById(Integer id){
+        var gameOptional = gameRepository.findById(id);
+        return gameOptional.orElseThrow(() -> new ObjectNotFoundException("Game não encontrado id: " + id));
+
+    }
+
+    public ListGameDTO findByIdGame(Integer id){
         var gameOptional = gameRepository.findById(id);
         var game = gameOptional.orElseThrow(() -> new ObjectNotFoundException("Game não encontrado id: " + id));
-        var note = noteRepository.avgNote(id);
+        var note = noteRepository.avgNote(game.getId());
         return new ListGameDTO(note, game);
     }
 
-    public List<Game> findAll(){
+    public List<ListGameDTO> findAll(){
         var games = gameRepository.findAll();
-        return games.stream().filter(obj ->
-                obj.getActive().equals(true)).collect(Collectors.toList());
+        var gameslist =  games.stream().map(obj -> {
+            var note = noteRepository.avgNote(obj.getId());
+           return new ListGameDTO(note, obj);
+        }).sorted(Comparator.comparing(ListGameDTO::getNote)).collect(Collectors.toList());
+        return gameslist;
     }
 
 

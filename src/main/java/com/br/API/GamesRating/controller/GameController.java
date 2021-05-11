@@ -1,5 +1,6 @@
 package com.br.API.GamesRating.controller;
 
+import com.br.API.GamesRating.dto.ListGameDTO;
 import com.br.API.GamesRating.dto.NewGameDTO;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.service.GameService;
@@ -19,14 +20,14 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping
-    private ResponseEntity<List<Game>> findAll(){
+    private ResponseEntity<List<ListGameDTO>> findAll(){
         var games = gameService.findAll();
         return ResponseEntity.ok().body(games);
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Game> findById(@PathVariable Integer id){
-        var game = gameService.findById(id);
+    private ResponseEntity<ListGameDTO> findById(@PathVariable Integer id){
+        var game = gameService.findByIdGame(id);
         return ResponseEntity.ok().body(game);
     }
 

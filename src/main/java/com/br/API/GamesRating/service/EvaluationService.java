@@ -26,6 +26,9 @@ public class EvaluationService {
     @Autowired
     private EvaluationRepository evaluationRepository;
 
+    @Autowired
+    private LikeditService likeditService;
+
     public Evaluation insert (NewEvaluationDTO evaluationDTO){
         var evaluation = validationInsertEvaluation(evaluationDTO);
         return evaluationRepository.save(evaluation);
@@ -42,13 +45,20 @@ public class EvaluationService {
 
     public List<ListEvaluationDTO> findAllByGame(Integer id){
         var evaluation = evaluationRepository.findByGame_Id(id);
-        var listEvaluation = evaluation.stream().map(obj -> new ListEvaluationDTO(obj)).collect(Collectors.toList());
-        return listEvaluation;
+        return getListEvaluationDTOS(evaluation);
     }
 
     public List<ListEvaluationDTO> findAllByUser(Integer id){
         var evaluation = evaluationRepository.findByUser_Id(id);
-        var listEvaluation = evaluation.stream().map(obj -> new ListEvaluationDTO(obj)).collect(Collectors.toList());
+        return getListEvaluationDTOS(evaluation);
+    }
+
+    private List<ListEvaluationDTO> getListEvaluationDTOS(List<Evaluation> evaluation) {
+        var listEvaluation = evaluation.stream().map(obj -> {
+            var likedit = likeditService.sumLike(obj.getId());
+            var dislike = likeditService.sumDisLike(obj.getId());
+            return  new ListEvaluationDTO(obj, likedit, dislike);
+        }).collect(Collectors.toList());
         return listEvaluation;
     }
 
