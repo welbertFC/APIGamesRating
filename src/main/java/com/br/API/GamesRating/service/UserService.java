@@ -33,6 +33,11 @@ public class UserService {
         return new ListUserDTO(user);
     }
 
+    public User findByIdUser(Integer id) {
+        var user = userRepository.findById(id);
+        return user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+    }
+
     public List<ListUserDTO> findAll() {
         var user = userRepository.findAll();
         var userList = user.stream().map(obj -> new ListUserDTO(obj))

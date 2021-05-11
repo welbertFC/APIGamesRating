@@ -20,11 +20,19 @@ public class ListEvaluationDTO {
 
     private Integer user;
 
-    public ListEvaluationDTO(Evaluation evaluation) {
+    private Integer like;
+
+    private Integer dislike;
+
+    public ListEvaluationDTO(Evaluation evaluation, Integer likedit, Integer dislike) {
         this.id = evaluation.getId();
         this.review = evaluation.getReview();
         this.dateCreated = evaluation.getDateCreated();
         this.game = evaluation.getGame().getId();
         this.user = evaluation.getUser().getId();
+        this.like = likedit;
+        this.dislike = dislike;
     }
+
+
 }
