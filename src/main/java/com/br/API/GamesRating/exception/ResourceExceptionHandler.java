@@ -1,6 +1,9 @@
 package com.br.API.GamesRating.exception;
 
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -35,6 +38,32 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardException<String>> objectNotSave(ObjectNotSaveException e, HttpServletRequest request) {
         StandardException<String> exception = new StandardException<String>(HttpStatus.CONFLICT.value(), "Erro de parametro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception);
+    }
+
+    @ExceptionHandler(FileException.class)
+    public ResponseEntity<StandardException> file(FileException e, HttpServletRequest request){
+
+        StandardException<String> exception = new StandardException<String>(HttpStatus.BAD_REQUEST.value(), "Erro de Arquivo", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception);
+    }
+
+    @ExceptionHandler(AmazonServiceException.class)
+    public ResponseEntity<StandardException> amazonService(AmazonServiceException e, HttpServletRequest request){
+        HttpStatus code = HttpStatus.valueOf(e.getErrorCode());
+        StandardException<String> exception = new StandardException<String>(code.value(), "Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
+        return ResponseEntity.status(code.value()).body(exception);
+    }
+
+    @ExceptionHandler(AmazonClientException.class)
+    public ResponseEntity<StandardException> amazonClient(AmazonClientException e, HttpServletRequest request){
+        StandardException<String> exception = new StandardException<String>(HttpStatus.BAD_REQUEST.value(), "Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
+    }
+
+    @ExceptionHandler(AmazonS3Exception.class)
+    public ResponseEntity<StandardException> amazonS3(AmazonS3Exception e, HttpServletRequest request){
+        StandardException<String> exception = new StandardException<String>(HttpStatus.BAD_REQUEST.value(),"Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
     }
 
 }

@@ -7,9 +7,12 @@ import com.br.API.GamesRating.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -45,6 +48,12 @@ public class GameController {
     private ResponseEntity<Game> update(@Valid @RequestBody NewGameDTO game, @PathVariable Integer id){
         var updateGame = gameService.update(id, game);
         return ResponseEntity.ok().body(updateGame);
+    }
+
+    @PatchMapping("/{id}/image")
+    public ResponseEntity<Void> saveImage(@PathVariable Integer id, @RequestParam(name = "image") MultipartFile multipartFile) {
+        var uri = gameService.uploadProfilePicture(id, multipartFile);
+        return ResponseEntity.created(uri).build();
     }
 
 

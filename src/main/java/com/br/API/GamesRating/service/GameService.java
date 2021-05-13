@@ -8,8 +8,10 @@ import com.br.API.GamesRating.repository.GameRepository;
 import com.br.API.GamesRating.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Comparator;
+import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,12 @@ public class GameService {
 
     @Autowired
     private NoteRepository noteRepository;
+
+    @Autowired
+    private S3service s3service;
+
+    @Autowired
+    private ImageService imageService;
 
     public Game findById(Integer id) {
         var gameOptional = gameRepository.findById(id);
@@ -53,5 +61,16 @@ public class GameService {
         findById(id);
         return gameRepository.save(new Game(id, game));
     }
+
+    public URI uploadProfilePicture(Integer id, MultipartFile multipartFile) {
+        var uri = s3service.uploadFile(multipartFile);
+        var game = findById(id);
+        game.setUrlImage(uri.toString());
+        var jpgImage = imageService.getJpgImagemFromFile(multipartFile);
+        var fileName = game.getTitle() + ".jpg";
+        gameRepository.save(game);
+        return s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+    }
+
 
 }

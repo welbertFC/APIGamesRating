@@ -28,8 +28,6 @@ public class NewGameDTO {
     @NotNull(message = "Campo platforms não pode ser nulo")
     private String platforms;
 
-    private String urlImage;
-
     private Boolean active;
 
 }
