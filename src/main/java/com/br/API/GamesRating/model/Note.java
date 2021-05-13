@@ -21,17 +21,17 @@ public class Note implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users users;
+    @JoinColumn(name = "userClient_id")
+    private UserClient userClient;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-    public Note(NewNoteDTO newNoteDTO, Users users, Game game) {
+    public Note(NewNoteDTO newNoteDTO, UserClient userClient, Game game) {
         this.note = newNoteDTO.getNote();
-        this.users = users;
+        this.userClient = userClient;
         this.game = game;
     }
 

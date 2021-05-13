@@ -1,6 +1,6 @@
 package com.br.API.GamesRating.dto;
 
-import com.br.API.GamesRating.model.Users;
+import com.br.API.GamesRating.model.UserClient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class ListUserDTO {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dateCreated;
 
-    public ListUserDTO(Optional<Users> user) {
+    public ListUserDTO(Optional<UserClient> user) {
         this.id = user.get().getId();
         this.name = user.get().getName();
         this.nickName = user.get().getNickName();
@@ -36,14 +36,14 @@ public class ListUserDTO {
         this.dateCreated = user.get().getDateCreated();
     }
 
-    public ListUserDTO(Users users) {
-        this.id = users.getId();
-        this.name = users.getName();
-        this.nickName = users.getNickName();
-        this.email = users.getEmail();
-        this.birthDate = users.getBirthDate();
-        this.type = users.getType();
-        this.dateCreated = users.getDateCreated();
+    public ListUserDTO(UserClient userClient) {
+        this.id = userClient.getId();
+        this.name = userClient.getName();
+        this.nickName = userClient.getNickName();
+        this.email = userClient.getEmail();
+        this.birthDate = userClient.getBirthDate();
+        this.type = userClient.getType();
+        this.dateCreated = userClient.getDateCreated();
     }
 }
 

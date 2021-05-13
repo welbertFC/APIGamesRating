@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EvaluationRepository extends JpaRepository<Evaluation, Integer> {
 
-    Page<Evaluation> findByUser_Id(Integer id, Pageable pageable);
+    Page<Evaluation> findByUserClient_Id(Integer id, Pageable pageable);
 
     Page<Evaluation> findByGame_Id(Integer id, Pageable pageable);
 }
