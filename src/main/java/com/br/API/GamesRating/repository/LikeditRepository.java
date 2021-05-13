@@ -11,7 +11,7 @@ public interface LikeditRepository extends JpaRepository<Likedit, Integer> {
 
     List<Likedit> findByEvaluation_Id(Integer id);
 
-    Likedit findByUser_IdAndAndEvaluation_Id(Integer idUser, Integer idEvaluation);
+    Likedit findByUserClient_IdAndAndEvaluation_Id(Integer idUser, Integer idEvaluation);
 
 
 }

@@ -55,7 +55,7 @@ public class EvaluationService {
     }
 
     public Page<ListEvaluationDTO> findAllByUser(Integer id, Pageable pageable) {
-        var evaluation = evaluationRepository.findByUser_Id(id, pageable);
+        var evaluation = evaluationRepository.findByUserClient_Id(id, pageable);
         return getListEvaluationDTOS(evaluation);
     }
 
@@ -73,8 +73,8 @@ public class EvaluationService {
         var game = gameService.findById(evaluationDTO.getGame());
         var evaluations = findAll();
         evaluations.forEach(obj -> {
-            if (obj.getUsers().getId().equals(evaluationDTO.getUser()) && obj.getGame().getId().equals(evaluationDTO.getGame())) {
-                throw new ObjectNotSaveException("O Usuario: " + obj.getUsers().getName() + " Já fez uma resenha sobre este jogo");
+            if (obj.getUserClient().getId().equals(evaluationDTO.getUser()) && obj.getGame().getId().equals(evaluationDTO.getGame())) {
+                throw new ObjectNotSaveException("O Usuario: " + obj.getUserClient().getName() + " Já fez uma resenha sobre este jogo");
             }
         });
 

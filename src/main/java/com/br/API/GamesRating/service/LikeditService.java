@@ -32,7 +32,7 @@ public class LikeditService {
     public Likedit update(Integer idEvaluation, Integer idUser, UpdateLikeditDTO likeditDTO) {
         userService.findByIdUser(idUser);
         evaluationService.findById(idEvaluation);
-        var linkedit = likeditRepository.findByUser_IdAndAndEvaluation_Id(idUser, idEvaluation);
+        var linkedit = likeditRepository.findByUserClient_IdAndAndEvaluation_Id(idUser, idEvaluation);
         if(linkedit == null) throw new ObjectNotFoundException("Resenha ainda não foi Avaliada");
         return likeditRepository.save(new Likedit(linkedit.getId(), linkedit, likeditDTO));
     }
@@ -66,8 +66,8 @@ public class LikeditService {
         var evaluation = evaluationService.findById(likeditDTO.getEvaluation());
         var likes = likeditRepository.findAll();
         likes.forEach(obj -> {
-            if (obj.getUsers().getId().equals(likeditDTO.getUser()) && obj.getEvaluation().getId().equals(likeditDTO.getEvaluation())) {
-                throw new ObjectNotSaveException("Usuario " + obj.getUsers().getName() + " Já curtiu esta resenha");
+            if (obj.getUserClient().getId().equals(likeditDTO.getUser()) && obj.getEvaluation().getId().equals(likeditDTO.getEvaluation())) {
+                throw new ObjectNotSaveException("Usuario " + obj.getUserClient().getName() + " Já curtiu esta resenha");
             }
         });
 

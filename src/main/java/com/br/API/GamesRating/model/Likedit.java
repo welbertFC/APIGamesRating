@@ -23,8 +23,8 @@ public class Likedit implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users users;
+    @JoinColumn(name = "userClient_id")
+    private UserClient userClient;
 
     @JsonIgnore
     @ManyToOne
@@ -32,16 +32,16 @@ public class Likedit implements Serializable {
     private Evaluation evaluation;
 
 
-    public Likedit(NewLikeditDTO likeditDTO, Users users, Evaluation evaluation) {
+    public Likedit(NewLikeditDTO likeditDTO, UserClient userClient, Evaluation evaluation) {
         this.likeDit = likeditDTO.getLikeDit();
-        this.users = users;
+        this.userClient = userClient;
         this.evaluation = evaluation;
     }
 
     public Likedit(Integer id, Likedit linkedit, UpdateLikeditDTO likeditDTO) {
         this.id = id;
         this.likeDit = likeditDTO.getLikeDit();
-        this.users = linkedit.getUsers();
+        this.userClient = linkedit.getUserClient();
         this.evaluation = linkedit.getEvaluation();
 
     }
