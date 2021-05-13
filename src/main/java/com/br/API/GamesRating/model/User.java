@@ -31,13 +31,13 @@ public class User implements Serializable {
     private String type;
     private LocalDateTime dateCreated;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Note> notes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Evaluation> evaluations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Likedit> likedits = new ArrayList<>();
 
     public User(NewUserDTO userDTO) {

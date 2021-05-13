@@ -1,7 +1,6 @@
 package com.br.API.GamesRating.model;
 
-import com.br.API.GamesRating.dto.GameDTO;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.br.API.GamesRating.dto.NewGameDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ public class Game implements Serializable {
     private Integer id;
     private String title;
 
-    @Column(name="DESCRIPTION", nullable=false, length=900)
+    @Column(name = "DESCRIPTION", nullable = false, length = 900)
     private String description;
     private String producer;
     private String platforms;
@@ -36,23 +35,21 @@ public class Game implements Serializable {
     @OneToMany(mappedBy = "game")
     private List<Evaluation> evaluations = new ArrayList<>();
 
-    public Game(GameDTO gameDTO) {
-        this.title = gameDTO.getTitle();
-        this.description = gameDTO.getDescription();
-        this.producer = gameDTO.getProducer();
-        this.platforms = gameDTO.getPlatforms();
-        this.urlImage = gameDTO.getUrlImage();
-        this.active = (gameDTO.getActive() == null ) ? true : gameDTO.getActive();
+    public Game(NewGameDTO newGameDTO) {
+        this.title = newGameDTO.getTitle();
+        this.description = newGameDTO.getDescription();
+        this.producer = newGameDTO.getProducer();
+        this.platforms = newGameDTO.getPlatforms();
+        this.active = (newGameDTO.getActive() == null) ? true : newGameDTO.getActive();
     }
 
-    public Game(Integer id, GameDTO gameDTO) {
+    public Game(Integer id, NewGameDTO newGameDTO) {
         this.id = id;
-        this.title = gameDTO.getTitle();
-        this.description = gameDTO.getDescription();
-        this.producer = gameDTO.getProducer();
-        this.platforms = gameDTO.getPlatforms();
-        this.urlImage = gameDTO.getUrlImage();
-        this.active = (gameDTO.getActive() == null ) ? true : gameDTO.getActive();
+        this.title = newGameDTO.getTitle();
+        this.description = newGameDTO.getDescription();
+        this.producer = newGameDTO.getProducer();
+        this.platforms = newGameDTO.getPlatforms();
+        this.active = (newGameDTO.getActive() == null) ? true : newGameDTO.getActive();
     }
 }
 

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
-public class GameDTO {
+public class NewGameDTO {
 
     @NotBlank(message = "Campo title não pode ser vazio")
     @NotNull(message = "Campo title não pode ser nulo")
@@ -27,8 +27,6 @@ public class GameDTO {
     @NotBlank(message = "Campo platforms não pode ser vazio")
     @NotNull(message = "Campo platforms não pode ser nulo")
     private String platforms;
-
-    private String urlImage;
 
     private Boolean active;
 
