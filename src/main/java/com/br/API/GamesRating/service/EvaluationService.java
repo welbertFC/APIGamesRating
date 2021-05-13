@@ -7,6 +7,9 @@ import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Evaluation;
 import com.br.API.GamesRating.repository.EvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,23 +45,27 @@ public class EvaluationService {
         return evaluationRepository.findAll();
     }
 
-    public List<ListEvaluationDTO> findAllByGame(Integer id) {
-        var evaluation = evaluationRepository.findByGame_Id(id);
+    public Page<Evaluation> findAllFeed(Pageable pageable) {
+        return evaluationRepository.findAll(pageable);
+    }
+
+    public Page<ListEvaluationDTO> findAllByGame(Integer id, Pageable pageable) {
+        var evaluation = evaluationRepository.findByGame_Id(id, pageable);
         return getListEvaluationDTOS(evaluation);
     }
 
-    public List<ListEvaluationDTO> findAllByUser(Integer id) {
-        var evaluation = evaluationRepository.findByUser_Id(id);
+    public Page<ListEvaluationDTO> findAllByUser(Integer id, Pageable pageable) {
+        var evaluation = evaluationRepository.findByUser_Id(id, pageable);
         return getListEvaluationDTOS(evaluation);
     }
 
-    private List<ListEvaluationDTO> getListEvaluationDTOS(List<Evaluation> evaluation) {
+    private Page<ListEvaluationDTO> getListEvaluationDTOS(Page<Evaluation> evaluation) {
         var listEvaluation = evaluation.stream().map(obj -> {
             var likedit = likeditService.sumLike(obj.getId());
             var dislike = likeditService.sumDisLike(obj.getId());
             return new ListEvaluationDTO(obj, likedit, dislike);
         }).collect(Collectors.toList());
-        return listEvaluation;
+        return new PageImpl<>(listEvaluation);
     }
 
     private Evaluation validationInsertEvaluation(NewEvaluationDTO evaluationDTO) {

@@ -5,6 +5,8 @@ import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Note;
 import com.br.API.GamesRating.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,8 +32,8 @@ public class NoteService {
         return noteRepository.findAll();
     }
 
-    public List<Note> findByIdGame(Integer id) {
-        return noteRepository.findByGame_Id(id);
+    public Page<Note> findByIdGame(Integer id, Pageable pageable) {
+        return noteRepository.findByGame_Id(id, pageable);
     }
 
     private Note validationNote(NewNoteDTO newNoteDTO) {

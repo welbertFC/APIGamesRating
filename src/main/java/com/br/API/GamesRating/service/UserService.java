@@ -8,12 +8,13 @@ import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.User;
 import com.br.API.GamesRating.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,12 +39,12 @@ public class UserService {
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
     }
 
-    public List<ListUserDTO> findAll() {
+    public Page<ListUserDTO> findAll() {
         var user = userRepository.findAll();
         var userList = user.stream().map(obj -> new ListUserDTO(obj))
                 .sorted(Comparator.comparing(ListUserDTO::getName))
                 .collect(Collectors.toList());
-        return userList;
+        return new PageImpl<>(userList);
     }
 
     public ListUserDTO update(Integer id, UpdateUserDTO updateUserDTO) {
