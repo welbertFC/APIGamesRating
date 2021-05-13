@@ -66,9 +66,9 @@ public class GameService {
         var game = findById(id);
         var jpgImage = imageService.getJpgImagemFromFile(multipartFile);
         var fileName = game.getTitle() + ".jpg";
-        gameRepository.save(game);
         var uri=  s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
         game.setUrlImage(uri.toString());
+        gameRepository.save(game);
         return uri;
     }
 
