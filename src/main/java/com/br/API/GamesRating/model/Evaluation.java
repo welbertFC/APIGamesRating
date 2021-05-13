@@ -30,18 +30,18 @@ public class Evaluation implements Serializable {
     private Game game;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "userClient_id")
+    private UserClient userClient;
 
     @JsonIgnore
     @OneToMany(mappedBy = "evaluation")
     private List<Likedit> likedits = new ArrayList<>();
 
-    public Evaluation(NewEvaluationDTO evaluationDTO, User user, Game game) {
+    public Evaluation(NewEvaluationDTO evaluationDTO, UserClient userClient, Game game) {
         this.review = evaluationDTO.getReview();
         this.dateCreated = LocalDateTime.now();
         this.game = game;
-        this.user = user;
+        this.userClient = userClient;
     }
 
 }

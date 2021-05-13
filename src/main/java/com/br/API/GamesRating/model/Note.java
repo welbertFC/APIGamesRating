@@ -1,6 +1,5 @@
 package com.br.API.GamesRating.model;
 
-import com.br.API.GamesRating.dto.ListUserDTO;
 import com.br.API.GamesRating.dto.NewNoteDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -22,17 +21,17 @@ public class Note implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "userClient_id")
+    private UserClient userClient;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-    public Note(NewNoteDTO newNoteDTO, User user, Game game) {
+    public Note(NewNoteDTO newNoteDTO, UserClient userClient, Game game) {
         this.note = newNoteDTO.getNote();
-        this.user = user;
+        this.userClient = userClient;
         this.game = game;
     }
 

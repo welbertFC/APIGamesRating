@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class User implements Serializable {
+public class UserClient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,16 +31,16 @@ public class User implements Serializable {
     private String type;
     private LocalDateTime dateCreated;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userClient", cascade = CascadeType.ALL)
     private List<Note> notes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userClient", cascade = CascadeType.ALL)
     private List<Evaluation> evaluations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userClient", cascade = CascadeType.ALL)
     private List<Likedit> likedits = new ArrayList<>();
 
-    public User(NewUserDTO userDTO) {
+    public UserClient(NewUserDTO userDTO) {
         this.name = userDTO.getName();
         this.nickName = userDTO.getNickName();
         this.email = userDTO.getEmail();
@@ -50,7 +50,7 @@ public class User implements Serializable {
         this.dateCreated = LocalDateTime.now();
     }
 
-    public User(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
+    public UserClient(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
         this.id = id;
         this.name = userDTO.getName();
         this.nickName = userDTO.getNickName();

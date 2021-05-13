@@ -3,7 +3,7 @@ package com.br.API.GamesRating.controller;
 import com.br.API.GamesRating.dto.ListUserDTO;
 import com.br.API.GamesRating.dto.NewUserDTO;
 import com.br.API.GamesRating.dto.UpdateUserDTO;
-import com.br.API.GamesRating.model.User;
+import com.br.API.GamesRating.model.UserClient;
 import com.br.API.GamesRating.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@Valid @RequestBody NewUserDTO newUserDTO) {
+    public ResponseEntity<UserClient> insert(@Valid @RequestBody NewUserDTO newUserDTO) {
         var newUser = userService.insert(newUserDTO);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

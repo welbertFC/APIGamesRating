@@ -29,7 +29,7 @@ public class ListEvaluationDTO {
         this.review = evaluation.getReview();
         this.dateCreated = evaluation.getDateCreated();
         this.game = evaluation.getGame().getId();
-        this.user = evaluation.getUser().getId();
+        this.user = evaluation.getUserClient().getId();
         this.like = likedit;
         this.dislike = dislike;
     }
