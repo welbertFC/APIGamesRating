@@ -31,17 +31,17 @@ public class Evaluation implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
 
     @JsonIgnore
     @OneToMany(mappedBy = "evaluation")
     private List<Likedit> likedits = new ArrayList<>();
 
-    public Evaluation(NewEvaluationDTO evaluationDTO, User user, Game game) {
+    public Evaluation(NewEvaluationDTO evaluationDTO, Users users, Game game) {
         this.review = evaluationDTO.getReview();
         this.dateCreated = LocalDateTime.now();
         this.game = game;
-        this.user = user;
+        this.users = users;
     }
 
 }

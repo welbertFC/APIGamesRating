@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class User implements Serializable {
+public class Users implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Likedit> likedits = new ArrayList<>();
 
-    public User(NewUserDTO userDTO) {
+    public Users(NewUserDTO userDTO) {
         this.name = userDTO.getName();
         this.nickName = userDTO.getNickName();
         this.email = userDTO.getEmail();
@@ -50,7 +50,7 @@ public class User implements Serializable {
         this.dateCreated = LocalDateTime.now();
     }
 
-    public User(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
+    public Users(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
         this.id = id;
         this.name = userDTO.getName();
         this.nickName = userDTO.getNickName();

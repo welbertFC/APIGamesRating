@@ -27,10 +27,10 @@ public class FeedDTO {
 
 
     public FeedDTO(Evaluation evaluation, Integer likedit, Integer dislike) {
-        this.idUser = evaluation.getUser().getId();
+        this.idUser = evaluation.getUsers().getId();
         this.idGame = evaluation.getGame().getId();
         this.idEvaluation = evaluation.getId();
-        this.nickNameUser = evaluation.getUser().getNickName();
+        this.nickNameUser = evaluation.getUsers().getNickName();
         this.evaluationUser = evaluation.getReview();
         this.titleGame = evaluation.getGame().getTitle();
         this.urlImage = evaluation.getGame().getUrlImage();

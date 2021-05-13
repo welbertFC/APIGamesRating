@@ -5,7 +5,7 @@ import com.br.API.GamesRating.dto.NewUserDTO;
 import com.br.API.GamesRating.dto.UpdateUserDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
-import com.br.API.GamesRating.model.User;
+import com.br.API.GamesRating.model.Users;
 import com.br.API.GamesRating.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,9 +23,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User insert(NewUserDTO user) {
+    public Users insert(NewUserDTO user) {
         validationUser(user);
-        return userRepository.save(new User(user));
+        return userRepository.save(new Users(user));
     }
 
     public ListUserDTO findById(Integer id) {
@@ -34,7 +34,7 @@ public class UserService {
         return new ListUserDTO(user);
     }
 
-    public User findByIdUser(Integer id) {
+    public Users findByIdUser(Integer id) {
         var user = userRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
     }
@@ -50,7 +50,7 @@ public class UserService {
     public ListUserDTO update(Integer id, UpdateUserDTO updateUserDTO) {
         var user = findById(id);
         ValidationUpdateUser(updateUserDTO, user);
-        var userUpdate = userRepository.save(new User(id, updateUserDTO, user));
+        var userUpdate = userRepository.save(new Users(id, updateUserDTO, user));
         return new ListUserDTO(userUpdate);
     }
 

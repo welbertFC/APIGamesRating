@@ -41,8 +41,8 @@ public class NoteService {
         var game = gameService.findById(newNoteDTO.getGame());
         var notes = findAll();
         notes.forEach(obj -> {
-            if (obj.getUser().getId().equals(newNoteDTO.getUser()) && obj.getGame().getId().equals(newNoteDTO.getGame())) {
-                throw new ObjectNotSaveException("O Usuario: " + obj.getUser().getName()
+            if (obj.getUsers().getId().equals(newNoteDTO.getUser()) && obj.getGame().getId().equals(newNoteDTO.getGame())) {
+                throw new ObjectNotSaveException("O Usuario: " + obj.getUsers().getName()
                         + " Já avaliou o jogo: " + obj.getGame().getTitle());
             }
         });

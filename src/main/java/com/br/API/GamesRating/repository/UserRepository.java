@@ -1,13 +1,13 @@
 package com.br.API.GamesRating.repository;
 
-import com.br.API.GamesRating.model.User;
+import com.br.API.GamesRating.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<Users, Integer> {
 
-    User findByNickName(String nickName);
+    Users findByNickName(String nickName);
 
-    User findByEmail(String email);
+    Users findByEmail(String email);
 }
