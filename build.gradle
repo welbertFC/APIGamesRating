@@ -5,7 +5,9 @@ plugins {
 }
 
 group = 'com.br.API'
+
 version = '1.1.1'
+
 sourceCompatibility = '11'
 
 repositories {
