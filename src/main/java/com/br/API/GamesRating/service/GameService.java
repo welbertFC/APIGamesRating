@@ -7,11 +7,13 @@ import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.repository.GameRepository;
 import com.br.API.GamesRating.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,13 +44,13 @@ public class GameService {
         return new ListGameDTO(note, game);
     }
 
-    public List<ListGameDTO> findAll() {
-        var games = gameRepository.findAll();
+    public Page<ListGameDTO> findAll(Pageable pageable) {
+        var games = gameRepository.findAll(pageable);
         var gameslist = games.stream().map(obj -> {
             var note = noteRepository.avgNote(obj.getId());
             return new ListGameDTO(note, obj);
         }).collect(Collectors.toList());
-        return gameslist;
+        return new PageImpl<>(gameslist);
     }
 
 
@@ -65,7 +67,7 @@ public class GameService {
         var game = findById(id);
         var jpgImage = imageService.getJpgImagemFromFile(multipartFile);
         var fileName = game.getTitle() + ".jpg";
-        var uri=  s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+        var uri = s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
         game.setUrlImage(uri.toString());
         gameRepository.save(game);
         return uri;

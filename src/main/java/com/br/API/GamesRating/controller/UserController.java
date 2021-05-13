@@ -6,12 +6,12 @@ import com.br.API.GamesRating.dto.UpdateUserDTO;
 import com.br.API.GamesRating.model.User;
 import com.br.API.GamesRating.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ListUserDTO>> findAll() {
+    public ResponseEntity<Page<ListUserDTO>> findAll() {
         var user = userService.findAll();
         return ResponseEntity.ok().body(user);
     }
