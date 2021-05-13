@@ -63,13 +63,13 @@ public class GameService {
     }
 
     public URI uploadProfilePicture(Integer id, MultipartFile multipartFile) {
-        var uri = s3service.uploadFile(multipartFile);
         var game = findById(id);
-        game.setUrlImage(uri.toString());
         var jpgImage = imageService.getJpgImagemFromFile(multipartFile);
         var fileName = game.getTitle() + ".jpg";
         gameRepository.save(game);
-        return s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+        var uri=  s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+        game.setUrlImage(uri.toString());
+        return uri;
     }
 
 
