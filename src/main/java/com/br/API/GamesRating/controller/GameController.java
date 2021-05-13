@@ -5,15 +5,14 @@ import com.br.API.GamesRating.dto.NewGameDTO;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/game")
@@ -23,19 +22,19 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping
-    private ResponseEntity<List<ListGameDTO>> findAll(){
-        var games = gameService.findAll();
+    private ResponseEntity<Page<ListGameDTO>> findAll(Pageable pageable) {
+        var games = gameService.findAll(pageable);
         return ResponseEntity.ok().body(games);
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<ListGameDTO> findById(@PathVariable Integer id){
+    private ResponseEntity<ListGameDTO> findById(@PathVariable Integer id) {
         var game = gameService.findByIdGame(id);
         return ResponseEntity.ok().body(game);
     }
 
     @PostMapping
-    private ResponseEntity<Game> insert(@Valid @RequestBody NewGameDTO game){
+    private ResponseEntity<Game> insert(@Valid @RequestBody NewGameDTO game) {
         var newGame = gameService.insert(game);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -45,7 +44,7 @@ public class GameController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<Game> update(@Valid @RequestBody NewGameDTO game, @PathVariable Integer id){
+    private ResponseEntity<Game> update(@Valid @RequestBody NewGameDTO game, @PathVariable Integer id) {
         var updateGame = gameService.update(id, game);
         return ResponseEntity.ok().body(updateGame);
     }

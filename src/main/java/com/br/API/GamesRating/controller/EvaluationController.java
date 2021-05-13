@@ -5,12 +5,13 @@ import com.br.API.GamesRating.dto.NewEvaluationDTO;
 import com.br.API.GamesRating.model.Evaluation;
 import com.br.API.GamesRating.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/evaluation")
@@ -20,7 +21,7 @@ public class EvaluationController {
     private EvaluationService evaluationService;
 
     @PostMapping
-    public ResponseEntity<Evaluation> insert(@Valid @RequestBody NewEvaluationDTO evaluationDTO){
+    public ResponseEntity<Evaluation> insert(@Valid @RequestBody NewEvaluationDTO evaluationDTO) {
         var evaluation = evaluationService.insert(evaluationDTO);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -30,14 +31,14 @@ public class EvaluationController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<ListEvaluationDTO>> findEvaluationByUser(@PathVariable Integer id){
-        var evaluation = evaluationService.findAllByUser(id);
+    public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByUser(@PathVariable Integer id, Pageable pageable) {
+        var evaluation = evaluationService.findAllByUser(id, pageable);
         return ResponseEntity.ok().body(evaluation);
     }
 
     @GetMapping("/game/{id}")
-    public ResponseEntity<List<ListEvaluationDTO>> findEvaluationByGame(@PathVariable Integer id){
-        var evaluation = evaluationService.findAllByGame(id);
+    public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByGame(@PathVariable Integer id, Pageable pageable) {
+        var evaluation = evaluationService.findAllByGame(id, pageable);
         return ResponseEntity.ok().body(evaluation);
     }
 
