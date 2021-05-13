@@ -66,8 +66,8 @@ public class LikeditService {
         var evaluation = evaluationService.findById(likeditDTO.getEvaluation());
         var likes = likeditRepository.findAll();
         likes.forEach(obj -> {
-            if (obj.getUser().getId().equals(likeditDTO.getUser()) && obj.getEvaluation().getId().equals(likeditDTO.getEvaluation())) {
-                throw new ObjectNotSaveException("Usuario " + obj.getUser().getName() + " Já curtiu esta resenha");
+            if (obj.getUsers().getId().equals(likeditDTO.getUser()) && obj.getEvaluation().getId().equals(likeditDTO.getEvaluation())) {
+                throw new ObjectNotSaveException("Usuario " + obj.getUsers().getName() + " Já curtiu esta resenha");
             }
         });
 
