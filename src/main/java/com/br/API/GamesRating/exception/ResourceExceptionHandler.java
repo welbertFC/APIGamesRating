@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
@@ -41,28 +42,34 @@ public class ResourceExceptionHandler {
     }
 
     @ExceptionHandler(FileException.class)
-    public ResponseEntity<StandardException> file(FileException e, HttpServletRequest request){
+    public ResponseEntity<StandardException> file(FileException e, HttpServletRequest request) {
 
         StandardException<String> exception = new StandardException<String>(HttpStatus.BAD_REQUEST.value(), "Erro de Arquivo", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception);
     }
 
     @ExceptionHandler(AmazonServiceException.class)
-    public ResponseEntity<StandardException> amazonService(AmazonServiceException e, HttpServletRequest request){
+    public ResponseEntity<StandardException> amazonService(AmazonServiceException e, HttpServletRequest request) {
         HttpStatus code = HttpStatus.valueOf(e.getErrorCode());
         StandardException<String> exception = new StandardException<String>(code.value(), "Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
         return ResponseEntity.status(code.value()).body(exception);
     }
 
     @ExceptionHandler(AmazonClientException.class)
-    public ResponseEntity<StandardException> amazonClient(AmazonClientException e, HttpServletRequest request){
+    public ResponseEntity<StandardException> amazonClient(AmazonClientException e, HttpServletRequest request) {
         StandardException<String> exception = new StandardException<String>(HttpStatus.BAD_REQUEST.value(), "Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
     }
 
     @ExceptionHandler(AmazonS3Exception.class)
-    public ResponseEntity<StandardException> amazonS3(AmazonS3Exception e, HttpServletRequest request){
-        StandardException<String> exception = new StandardException<String>(HttpStatus.BAD_REQUEST.value(),"Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
+    public ResponseEntity<StandardException> amazonS3(AmazonS3Exception e, HttpServletRequest request) {
+        StandardException<String> exception = new StandardException<>(HttpStatus.BAD_REQUEST.value(), "Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<StandardException> maxupload(MaxUploadSizeExceededException e, HttpServletRequest request) {
+        StandardException<String> exception = new StandardException<>(HttpStatus.BAD_REQUEST.value(), "Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
     }
 

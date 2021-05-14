@@ -3,6 +3,7 @@ package com.br.API.GamesRating.service;
 import com.br.API.GamesRating.dto.ListGameDTO;
 import com.br.API.GamesRating.dto.NewGameDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
+import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.repository.GameRepository;
 import com.br.API.GamesRating.repository.NoteRepository;
@@ -54,16 +55,36 @@ public class GameService {
     }
 
 
-    public Game insert(NewGameDTO game) {
-        return gameRepository.save(new Game(game));
+    public Game insert(NewGameDTO game, MultipartFile multipartFile) {
+        var jpgImage = imageService.getJpgImagemFromFile(multipartFile);
+        var fileName = game.getTitle() + ".jpg";
+        var uri = s3service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+        newGameValidation(game);
+        return gameRepository.save(new Game(game, uri));
+    }
+
+    private void newGameValidation(NewGameDTO gameDTO) {
+
+        if (gameDTO.getTitle() == null || gameDTO.getTitle().isBlank()) {
+            throw new ObjectNotSaveException("Campo titulo é obrigatorio");
+        }
+        if (gameDTO.getProducer() == null || gameDTO.getProducer().isBlank()) {
+            throw new ObjectNotSaveException("Campo produtora é obrigatorio");
+        }
+        if (gameDTO.getPlatforms() == null || gameDTO.getPlatforms().isBlank()) {
+            throw new ObjectNotSaveException("Campo plataforma é obrigatorio");
+        }
+        if (gameDTO.getDescription() == null || gameDTO.getDescription().length() < 10 || gameDTO.getDescription().length() > 300 || gameDTO.getDescription().isBlank()) {
+            throw new ObjectNotSaveException("A descrição deve conter entre 10 e 300 caracteres");
+        }
     }
 
     public Game update(Integer id, NewGameDTO game) {
-        findById(id);
-        return gameRepository.save(new Game(id, game));
+        var gameNow = findById(id);
+        return gameRepository.save(new Game(game, gameNow));
     }
 
-    public URI uploadProfilePicture(Integer id, MultipartFile multipartFile) {
+    public URI updateGameImage(Integer id, MultipartFile multipartFile) {
         var game = findById(id);
         var jpgImage = imageService.getJpgImagemFromFile(multipartFile);
         var fileName = game.getTitle() + ".jpg";
