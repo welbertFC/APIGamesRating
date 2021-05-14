@@ -68,7 +68,7 @@ public class ResourceExceptionHandler {
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<StandardException> maxupload(AmazonS3Exception e, HttpServletRequest request) {
+    public ResponseEntity<StandardException> maxupload(MaxUploadSizeExceededException e, HttpServletRequest request) {
         StandardException<String> exception = new StandardException<>(HttpStatus.BAD_REQUEST.value(), "Erro", e.getMessage(), System.currentTimeMillis(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
     }
