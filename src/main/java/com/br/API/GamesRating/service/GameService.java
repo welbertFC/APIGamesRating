@@ -49,8 +49,12 @@ public class GameService {
         var games = gameRepository.findAllByActiveTrue(pageable);
         var gameslist = games.stream().map(obj -> {
             var note = noteRepository.avgNote(obj.getId());
+            if (note == null) {
+                note = 0;
+            }
             return new ListGameDTO(note, obj);
         }).collect(Collectors.toList());
+
         return new PageImpl<>(gameslist);
     }
 
