@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,20 +36,22 @@ public class Game implements Serializable {
     @OneToMany(mappedBy = "game")
     private List<Evaluation> evaluations = new ArrayList<>();
 
-    public Game(NewGameDTO newGameDTO) {
+    public Game(NewGameDTO newGameDTO, URI image) {
         this.title = newGameDTO.getTitle();
         this.description = newGameDTO.getDescription();
         this.producer = newGameDTO.getProducer();
         this.platforms = newGameDTO.getPlatforms();
+        this.urlImage = image.toString();
         this.active = (newGameDTO.getActive() == null) ? true : newGameDTO.getActive();
     }
 
-    public Game(Integer id, NewGameDTO newGameDTO) {
-        this.id = id;
+    public Game(NewGameDTO newGameDTO, Game game) {
+        this.id = game.getId();
         this.title = newGameDTO.getTitle();
         this.description = newGameDTO.getDescription();
         this.producer = newGameDTO.getProducer();
         this.platforms = newGameDTO.getPlatforms();
+        this.urlImage = game.getUrlImage();
         this.active = (newGameDTO.getActive() == null) ? true : newGameDTO.getActive();
     }
 }

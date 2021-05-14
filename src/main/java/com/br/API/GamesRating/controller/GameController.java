@@ -4,6 +4,7 @@ import com.br.API.GamesRating.dto.ListGameDTO;
 import com.br.API.GamesRating.dto.NewGameDTO;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.service.GameService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/game")
@@ -34,13 +36,21 @@ public class GameController {
     }
 
     @PostMapping
-    private ResponseEntity<Game> insert(@Valid @RequestBody NewGameDTO game) {
-        var newGame = gameService.insert(game);
-        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newGame.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
+    private ResponseEntity<Void> insert(@RequestParam("game") String game, @RequestParam("image") MultipartFile multipartFile) {
+        var mapper = new ObjectMapper();
+        NewGameDTO newGameDTO;
+        try {
+            newGameDTO = mapper.readValue(game, NewGameDTO.class);
+            var newGame = gameService.insert(newGameDTO, multipartFile);
+            var uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(newGame.getId())
+                    .toUri();
+            return ResponseEntity.created(uri).build();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @PutMapping("/{id}")
@@ -51,7 +61,7 @@ public class GameController {
 
     @PatchMapping("/{id}/image")
     public ResponseEntity<Void> saveImage(@PathVariable Integer id, @RequestParam(name = "image") MultipartFile multipartFile) {
-        var uri = gameService.uploadProfilePicture(id, multipartFile);
+        var uri = gameService.updateGameImage(id, multipartFile);
         return ResponseEntity.created(uri).build();
     }
 
