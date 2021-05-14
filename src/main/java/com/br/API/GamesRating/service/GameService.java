@@ -46,7 +46,7 @@ public class GameService {
     }
 
     public Page<ListGameDTO> findAll(Pageable pageable) {
-        var games = gameRepository.findAll(pageable);
+        var games = gameRepository.findAllByActiveTrue(pageable);
         var gameslist = games.stream().map(obj -> {
             var note = noteRepository.avgNote(obj.getId());
             return new ListGameDTO(note, obj);
