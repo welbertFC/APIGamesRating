@@ -15,22 +15,25 @@ import javax.validation.Valid;
 @RequestMapping("/like")
 public class LikeditController {
 
-    @Autowired
-    private LikeditService likeditService;
+  @Autowired private LikeditService likeditService;
 
-    @PostMapping
-    public ResponseEntity<Likedit> insert(@Valid @RequestBody NewLikeditDTO likeditDTO) {
-        var likedit = likeditService.insert(likeditDTO);
-        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(likedit.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
-    }
+  @PostMapping
+  public ResponseEntity<Likedit> insert(@Valid @RequestBody NewLikeditDTO likeditDTO) {
+    var likedit = likeditService.insert(likeditDTO);
+    var uri =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(likedit.getId())
+            .toUri();
+    return ResponseEntity.created(uri).build();
+  }
 
-    @PutMapping("/user/{idUser}/evaluation/{idEvaluation}")
-    public ResponseEntity<Likedit> update(@Valid @RequestBody UpdateLikeditDTO likeditDTO, @PathVariable Integer idUser, @PathVariable Integer idEvaluation) {
-        var likedit = likeditService.update(idEvaluation, idUser, likeditDTO);
-        return ResponseEntity.ok().body(likedit);
-    }
+  @PutMapping("/user/{idUser}/evaluation/{idEvaluation}")
+  public ResponseEntity<Likedit> update(
+      @Valid @RequestBody UpdateLikeditDTO likeditDTO,
+      @PathVariable Integer idUser,
+      @PathVariable Integer idEvaluation) {
+    var likedit = likeditService.update(idEvaluation, idUser, likeditDTO);
+    return ResponseEntity.ok().body(likedit);
+  }
 }

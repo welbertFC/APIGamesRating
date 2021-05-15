@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
-    Page<Game> findAllByActiveTrue(Pageable pageable);
-
+  Page<Game> findAllByActiveTrue(Pageable pageable);
 }

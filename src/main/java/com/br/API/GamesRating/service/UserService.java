@@ -20,76 +20,75 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    public UserClient insert(NewUserDTO user) {
-        validationUser(user);
-        return userRepository.save(new UserClient(user));
+  public UserClient insert(NewUserDTO user) {
+    validationUser(user);
+    return userRepository.save(new UserClient(user));
+  }
+
+  public ListUserDTO findById(Integer id) {
+    var user = userRepository.findById(id);
+    user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+    return new ListUserDTO(user);
+  }
+
+  public UserClient findByIdUser(Integer id) {
+    var user = userRepository.findById(id);
+    return user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+  }
+
+  public Page<ListUserDTO> findAll() {
+    var user = userRepository.findAll();
+    var userList =
+        user.stream()
+            .map(obj -> new ListUserDTO(obj))
+            .sorted(Comparator.comparing(ListUserDTO::getName))
+            .collect(Collectors.toList());
+    return new PageImpl<>(userList);
+  }
+
+  public ListUserDTO update(Integer id, UpdateUserDTO updateUserDTO) {
+    var user = findById(id);
+    ValidationUpdateUser(updateUserDTO, user);
+    var userUpdate = userRepository.save(new UserClient(id, updateUserDTO, user));
+    return new ListUserDTO(userUpdate);
+  }
+
+  public void delete(Integer id) {
+    var user = userRepository.findById(id);
+    var userDelete = user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+    userRepository.delete(userDelete);
+  }
+
+  public void validationUser(NewUserDTO user) {
+    var userEmail = userRepository.findByEmail(user.getEmail());
+    var userNickname = userRepository.findByNickName(user.getNickName());
+
+    if (userEmail != null) {
+      throw new ObjectNotSaveException("Email já cadastrado");
     }
 
-    public ListUserDTO findById(Integer id) {
-        var user = userRepository.findById(id);
-        user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
-        return new ListUserDTO(user);
+    if (userNickname != null) {
+      throw new ObjectNotSaveException("NickName já cadastrado");
     }
 
-    public UserClient findByIdUser(Integer id) {
-        var user = userRepository.findById(id);
-        return user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+    if (user.getBirthDate().until(LocalDate.now(), ChronoUnit.YEARS) < 18) {
+      throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
+    }
+  }
+
+  public void ValidationUpdateUser(UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
+    var userNickname = userRepository.findByNickName(userDTO.getNickName());
+
+    if (userNickname != null) {
+      if (!listUserDTO.getNickName().equals(userNickname.getNickName())) {
+        throw new ObjectNotSaveException("NickName já cadastrado");
+      }
     }
 
-    public Page<ListUserDTO> findAll() {
-        var user = userRepository.findAll();
-        var userList = user.stream().map(obj -> new ListUserDTO(obj))
-                .sorted(Comparator.comparing(ListUserDTO::getName))
-                .collect(Collectors.toList());
-        return new PageImpl<>(userList);
+    if (userDTO.getBirthDate().until(LocalDate.now(), ChronoUnit.YEARS) < 18) {
+      throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
     }
-
-    public ListUserDTO update(Integer id, UpdateUserDTO updateUserDTO) {
-        var user = findById(id);
-        ValidationUpdateUser(updateUserDTO, user);
-        var userUpdate = userRepository.save(new UserClient(id, updateUserDTO, user));
-        return new ListUserDTO(userUpdate);
-    }
-
-    public void delete(Integer id) {
-        var user = userRepository.findById(id);
-        var userDelete = user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
-        userRepository.delete(userDelete);
-    }
-
-    public void validationUser(NewUserDTO user) {
-        var userEmail = userRepository.findByEmail(user.getEmail());
-        var userNickname = userRepository.findByNickName(user.getNickName());
-
-        if (userEmail != null) {
-            throw new ObjectNotSaveException("Email já cadastrado");
-        }
-
-        if (userNickname != null) {
-            throw new ObjectNotSaveException("NickName já cadastrado");
-        }
-
-        if (user.getBirthDate().until(LocalDate.now(), ChronoUnit.YEARS) < 18) {
-            throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
-        }
-    }
-
-    public void ValidationUpdateUser(UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
-        var userNickname = userRepository.findByNickName(userDTO.getNickName());
-
-        if (userNickname != null) {
-            if (!listUserDTO.getNickName().equals(userNickname.getNickName())) {
-                throw new ObjectNotSaveException("NickName já cadastrado");
-            }
-        }
-
-        if (userDTO.getBirthDate().until(LocalDate.now(), ChronoUnit.YEARS) < 18) {
-            throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
-        }
-    }
-
-
+  }
 }
