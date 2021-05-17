@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateLikeditDTO {
 
-    private Integer likeDit;
+  private Integer likeDit;
 }

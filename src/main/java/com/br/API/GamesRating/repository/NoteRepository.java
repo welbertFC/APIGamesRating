@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Integer> {
 
-    Page<Note> findByGame_Id(Integer id, Pageable pageable);
+  Page<Note> findByGame_Id(Integer id, Pageable pageable);
 
-    @Query("SELECT AVG(N.note) FROM Note N WHERE N.game.id = ?1")
-    Integer avgNote(@PathVariable Integer idGame);
+  @Query("SELECT AVG(N.note) FROM Note N WHERE N.game.id = ?1")
+  Integer avgNote(@PathVariable Integer idGame);
 }

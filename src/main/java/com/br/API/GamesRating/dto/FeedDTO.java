@@ -11,32 +11,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class FeedDTO {
 
-    private Integer idEvaluation;
-    private Integer idGame;
-    private Integer idUser;
-    private String nickNameUser;
-    private String evaluationUser;
-    private String titleGame;
-    private String urlImage;
+  private Integer idEvaluation;
+  private Integer idGame;
+  private Integer idUser;
+  private String nickNameUser;
+  private String evaluationUser;
+  private String titleGame;
+  private String urlImage;
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private LocalDateTime dateEvaluationCreate;
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+  private LocalDateTime dateEvaluationCreate;
 
-    private Integer like;
-    private Integer dislike;
+  private Integer like;
+  private Integer dislike;
 
-
-    public FeedDTO(Evaluation evaluation, Integer likedit, Integer dislike) {
-        this.idUser = evaluation.getUserClient().getId();
-        this.idGame = evaluation.getGame().getId();
-        this.idEvaluation = evaluation.getId();
-        this.nickNameUser = evaluation.getUserClient().getNickName();
-        this.evaluationUser = evaluation.getReview();
-        this.titleGame = evaluation.getGame().getTitle();
-        this.urlImage = evaluation.getGame().getUrlImage();
-        this.dateEvaluationCreate = evaluation.getDateCreated();
-        this.like = likedit;
-        this.dislike = dislike;
-    }
-
+  public FeedDTO(Evaluation evaluation, Integer likedit, Integer dislike) {
+    this.idUser = evaluation.getUserClient().getId();
+    this.idGame = evaluation.getGame().getId();
+    this.idEvaluation = evaluation.getId();
+    this.nickNameUser = evaluation.getUserClient().getNickName();
+    this.evaluationUser = evaluation.getReview();
+    this.titleGame = evaluation.getGame().getTitle();
+    this.urlImage = evaluation.getGame().getUrlImage();
+    this.dateEvaluationCreate = evaluation.getDateCreated();
+    this.like = likedit;
+    this.dislike = dislike;
+  }
 }
