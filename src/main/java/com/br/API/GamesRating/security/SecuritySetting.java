@@ -26,7 +26,7 @@ public class SecuritySetting extends WebSecurityConfigurerAdapter {
 
   @Autowired private UserDetailsService userDetailsService;
 
-  public static final String[] PUBLIC_MATCHERS = {"/h2-console/**", "/game/**"};
+  public static final String[] PUBLIC_MATCHERS = {"/h2-console/**", "/game/**", "/evaluation/**", "/like/**", "/note/**", "/user/**" };
 
   public static final String[] PUBLIC_MATCHERS_GET = {"/game/**", "/feed/**"};
 
