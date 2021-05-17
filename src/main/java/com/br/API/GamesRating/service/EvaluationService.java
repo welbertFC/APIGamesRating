@@ -15,71 +15,74 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 public class EvaluationService {
 
-    @Autowired
-    private UserService userService;
+  @Autowired private UserService userService;
 
-    @Autowired
-    private GameService gameService;
+  @Autowired private GameService gameService;
 
-    @Autowired
-    private EvaluationRepository evaluationRepository;
+  @Autowired private EvaluationRepository evaluationRepository;
 
-    @Autowired
-    private LikeditService likeditService;
+  @Autowired private LikeditService likeditService;
 
-    public Evaluation insert(NewEvaluationDTO evaluationDTO) {
-        var evaluation = validationInsertEvaluation(evaluationDTO);
-        return evaluationRepository.save(evaluation);
-    }
+  public Evaluation insert(NewEvaluationDTO evaluationDTO) {
+    var evaluation = validationInsertEvaluation(evaluationDTO);
+    return evaluationRepository.save(evaluation);
+  }
 
-    public Evaluation findById(Integer id) {
-        var evaluation = evaluationRepository.findById(id);
-        return evaluation.orElseThrow(() -> new ObjectNotFoundException("Avaliação nao encontarda id: " + id));
-    }
+  public Evaluation findById(Integer id) {
+    var evaluation = evaluationRepository.findById(id);
+    return evaluation.orElseThrow(
+        () -> new ObjectNotFoundException("Avaliação nao encontarda id: " + id));
+  }
 
-    public List<Evaluation> findAll() {
-        return evaluationRepository.findAll();
-    }
+  public List<Evaluation> findAll() {
+    return evaluationRepository.findAll();
+  }
 
-    public Page<Evaluation> findAllFeed(Pageable pageable) {
-        return evaluationRepository.findAll(pageable);
-    }
+  public Page<Evaluation> findAllFeed(Pageable pageable) {
+    return evaluationRepository.findAll(pageable);
+  }
 
-    public Page<ListEvaluationDTO> findAllByGame(Integer id, Pageable pageable) {
-        var evaluation = evaluationRepository.findByGame_Id(id, pageable);
-        return getListEvaluationDTOS(evaluation);
-    }
+  public Page<ListEvaluationDTO> findAllByGame(Integer id, Pageable pageable) {
+    var evaluation = evaluationRepository.findByGame_Id(id, pageable);
+    return getListEvaluationDTOS(evaluation);
+  }
 
-    public Page<ListEvaluationDTO> findAllByUser(Integer id, Pageable pageable) {
-        var evaluation = evaluationRepository.findByUserClient_Id(id, pageable);
-        return getListEvaluationDTOS(evaluation);
-    }
+  public Page<ListEvaluationDTO> findAllByUser(Integer id, Pageable pageable) {
+    var evaluation = evaluationRepository.findByUserClient_Id(id, pageable);
+    return getListEvaluationDTOS(evaluation);
+  }
 
-    private Page<ListEvaluationDTO> getListEvaluationDTOS(Page<Evaluation> evaluation) {
-        var listEvaluation = evaluation.stream().map(obj -> {
-            var likedit = likeditService.sumLike(obj.getId());
-            var dislike = likeditService.sumDisLike(obj.getId());
-            return new ListEvaluationDTO(obj, likedit, dislike);
-        }).collect(Collectors.toList());
-        return new PageImpl<>(listEvaluation);
-    }
+  private Page<ListEvaluationDTO> getListEvaluationDTOS(Page<Evaluation> evaluation) {
+    var listEvaluation =
+        evaluation.stream()
+            .map(
+                obj -> {
+                  var likedit = likeditService.sumLike(obj.getId());
+                  var dislike = likeditService.sumDisLike(obj.getId());
+                  return new ListEvaluationDTO(obj, likedit, dislike);
+                })
+            .collect(Collectors.toList());
+    return new PageImpl<>(listEvaluation);
+  }
 
-    private Evaluation validationInsertEvaluation(NewEvaluationDTO evaluationDTO) {
-        var user = userService.findByIdUser(evaluationDTO.getUser());
-        var game = gameService.findById(evaluationDTO.getGame());
-        var evaluations = findAll();
-        evaluations.forEach(obj -> {
-            if (obj.getUserClient().getId().equals(evaluationDTO.getUser()) && obj.getGame().getId().equals(evaluationDTO.getGame())) {
-                throw new ObjectNotSaveException("O Usuario: " + obj.getUserClient().getName() + " Já fez uma resenha sobre este jogo");
-            }
+  private Evaluation validationInsertEvaluation(NewEvaluationDTO evaluationDTO) {
+    var user = userService.findByIdUser(evaluationDTO.getUser());
+    var game = gameService.findById(evaluationDTO.getGame());
+    var evaluations = findAll();
+    evaluations.forEach(
+        obj -> {
+          if (obj.getUserClient().getId().equals(evaluationDTO.getUser())
+              && obj.getGame().getId().equals(evaluationDTO.getGame())) {
+            throw new ObjectNotSaveException(
+                "O Usuario: "
+                    + obj.getUserClient().getName()
+                    + " Já fez uma resenha sobre este jogo");
+          }
         });
 
-        return new Evaluation(evaluationDTO, user, game);
-    }
-
-
+    return new Evaluation(evaluationDTO, user, game);
+  }
 }

@@ -13,38 +13,36 @@ import java.util.Optional;
 @NoArgsConstructor
 public class ListUserDTO {
 
-    private Integer id;
-    private String name;
-    private String nickName;
-    private String email;
+  private Integer id;
+  private String name;
+  private String nickName;
+  private String email;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate birthDate;
+  @JsonFormat(pattern = "dd/MM/yyyy")
+  private LocalDate birthDate;
 
-    private String type;
+  private String type;
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private LocalDateTime dateCreated;
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+  private LocalDateTime dateCreated;
 
-    public ListUserDTO(Optional<UserClient> user) {
-        this.id = user.get().getId();
-        this.name = user.get().getName();
-        this.nickName = user.get().getNickName();
-        this.email = user.get().getEmail();
-        this.birthDate = user.get().getBirthDate();
-        this.type = user.get().getType();
-        this.dateCreated = user.get().getDateCreated();
-    }
+  public ListUserDTO(Optional<UserClient> user) {
+    this.id = user.get().getId();
+    this.name = user.get().getName();
+    this.nickName = user.get().getNickName();
+    this.email = user.get().getEmail();
+    this.birthDate = user.get().getBirthDate();
+    this.type = user.get().getType();
+    this.dateCreated = user.get().getDateCreated();
+  }
 
-    public ListUserDTO(UserClient userClient) {
-        this.id = userClient.getId();
-        this.name = userClient.getName();
-        this.nickName = userClient.getNickName();
-        this.email = userClient.getEmail();
-        this.birthDate = userClient.getBirthDate();
-        this.type = userClient.getType();
-        this.dateCreated = userClient.getDateCreated();
-    }
+  public ListUserDTO(UserClient userClient) {
+    this.id = userClient.getId();
+    this.name = userClient.getName();
+    this.nickName = userClient.getNickName();
+    this.email = userClient.getEmail();
+    this.birthDate = userClient.getBirthDate();
+    this.type = userClient.getType();
+    this.dateCreated = userClient.getDateCreated();
+  }
 }
-
-

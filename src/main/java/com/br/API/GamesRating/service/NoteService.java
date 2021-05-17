@@ -14,38 +14,40 @@ import java.util.List;
 @Service
 public class NoteService {
 
-    @Autowired
-    private NoteRepository noteRepository;
+  @Autowired private NoteRepository noteRepository;
 
-    @Autowired
-    private UserService userService;
+  @Autowired private UserService userService;
 
-    @Autowired
-    private GameService gameService;
+  @Autowired private GameService gameService;
 
-    public Note insert(NewNoteDTO newNoteDTO) {
-        var note = validationNote(newNoteDTO);
-        return noteRepository.save(note);
-    }
+  public Note insert(NewNoteDTO newNoteDTO) {
+    var note = validationNote(newNoteDTO);
+    return noteRepository.save(note);
+  }
 
-    private List<Note> findAll() {
-        return noteRepository.findAll();
-    }
+  private List<Note> findAll() {
+    return noteRepository.findAll();
+  }
 
-    public Page<Note> findByIdGame(Integer id, Pageable pageable) {
-        return noteRepository.findByGame_Id(id, pageable);
-    }
+  public Page<Note> findByIdGame(Integer id, Pageable pageable) {
+    return noteRepository.findByGame_Id(id, pageable);
+  }
 
-    private Note validationNote(NewNoteDTO newNoteDTO) {
-        var user = userService.findByIdUser(newNoteDTO.getUser());
-        var game = gameService.findById(newNoteDTO.getGame());
-        var notes = findAll();
-        notes.forEach(obj -> {
-            if (obj.getUserClient().getId().equals(newNoteDTO.getUser()) && obj.getGame().getId().equals(newNoteDTO.getGame())) {
-                throw new ObjectNotSaveException("O Usuario: " + obj.getUserClient().getName()
-                        + " Já avaliou o jogo: " + obj.getGame().getTitle());
-            }
+  private Note validationNote(NewNoteDTO newNoteDTO) {
+    var user = userService.findByIdUser(newNoteDTO.getUser());
+    var game = gameService.findById(newNoteDTO.getGame());
+    var notes = findAll();
+    notes.forEach(
+        obj -> {
+          if (obj.getUserClient().getId().equals(newNoteDTO.getUser())
+              && obj.getGame().getId().equals(newNoteDTO.getGame())) {
+            throw new ObjectNotSaveException(
+                "O Usuario: "
+                    + obj.getUserClient().getName()
+                    + " Já avaliou o jogo: "
+                    + obj.getGame().getTitle());
+          }
         });
-        return new Note(newNoteDTO, user, game);
-    }
+    return new Note(newNoteDTO, user, game);
+  }
 }

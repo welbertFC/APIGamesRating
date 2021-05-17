@@ -10,13 +10,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class NewLikeditDTO {
 
+  @Range(min = 1, max = 3, message = "Só é aceito numeros de 1 a 3")
+  private Integer likeDit;
 
-    @Range(min = 1, max = 3, message = "Só é aceito numeros de 1 a 3")
-    private Integer likeDit;
+  @NotNull(message = "O usuario não pode ser nulo")
+  private Integer user;
 
-    @NotNull(message = "O usuario não pode ser nulo")
-    private Integer user;
-
-    @NotNull(message = "A avaliação não pode ser nulo")
-    private Integer evaluation;
+  @NotNull(message = "A avaliação não pode ser nulo")
+  private Integer evaluation;
 }

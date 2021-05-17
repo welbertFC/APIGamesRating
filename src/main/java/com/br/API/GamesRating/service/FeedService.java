@@ -7,29 +7,28 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class FeedService {
 
-    @Autowired
-    private LikeditService likeditService;
+  @Autowired private LikeditService likeditService;
 
-    @Autowired
-    private EvaluationService evaluationService;
+  @Autowired private EvaluationService evaluationService;
 
-    public Page<FeedDTO> findAll(Pageable pageable) {
-        var listEvaluation = evaluationService.findAllFeed(pageable);
-        var feed = listEvaluation.stream().map(obj -> {
-            var likedit = likeditService.sumLike(obj.getId());
-            var dislike = likeditService.sumDisLike(obj.getId());
-            return new FeedDTO(obj, likedit, dislike);
-        }).sorted(Comparator.comparingInt(FeedDTO::getLike)).collect(Collectors.toList());
-        return new PageImpl<>(feed);
-    }
-
+  public Page<FeedDTO> findAll(Pageable pageable) {
+    var listEvaluation = evaluationService.findAllFeed(pageable);
+    var feed =
+        listEvaluation.stream()
+            .map(
+                obj -> {
+                  var likedit = likeditService.sumLike(obj.getId());
+                  var dislike = likeditService.sumDisLike(obj.getId());
+                  return new FeedDTO(obj, likedit, dislike);
+                })
+            .sorted(Comparator.comparingInt(FeedDTO::getLike).reversed())
+            .collect(Collectors.toList());
+    return new PageImpl<>(feed);
+  }
 }
