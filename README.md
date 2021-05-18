@@ -12,7 +12,7 @@ API Games Rating é desenvolvida em Java utilizando a framework Spring Boot, ond
 
 Repositório Aplicativo:
 <div>
- <a href="https://github.com/welbertFC/APIGamesRating">
+ <a href="https://github.com/luis-otvio/app_games_rating">
    <img height="100em" src="https://github-readme-stats.vercel.app/api/pin/?username=luis-otvio&repo=app_games_rating&show_owner=true&theme=gotham"/>
  <div>
   
