@@ -25,13 +25,13 @@ public class GameController {
   @GetMapping
   private ResponseEntity<Page<ListGameDTO>> findAll(Pageable pageable) {
     var games = gameService.findAll(pageable);
-    return ResponseEntity.ok().body(games);
+    return ResponseEntity.ok(games);
   }
 
   @GetMapping("/{id}")
   private ResponseEntity<ListGameDTO> findById(@PathVariable Integer id) {
     var game = gameService.findByIdGame(id);
-    return ResponseEntity.ok().body(game);
+    return ResponseEntity.ok(game);
   }
 
   @PostMapping
@@ -58,7 +58,7 @@ public class GameController {
   private ResponseEntity<Game> update(
       @Valid @RequestBody NewGameDTO game, @PathVariable Integer id) {
     var updateGame = gameService.update(id, game);
-    return ResponseEntity.ok().body(updateGame);
+    return ResponseEntity.ok(updateGame);
   }
 
   @PatchMapping("/{id}/image")

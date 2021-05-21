@@ -34,6 +34,6 @@ public class LikeditController {
       @PathVariable Integer idUser,
       @PathVariable Integer idEvaluation) {
     var likedit = likeditService.update(idEvaluation, idUser, likeditDTO);
-    return ResponseEntity.ok().body(likedit);
+    return ResponseEntity.ok(likedit);
   }
 }

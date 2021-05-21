@@ -17,7 +17,7 @@ public class NewGameDTO {
 
   @NotBlank(message = "Campo description não pode ser vazio")
   @NotNull(message = "Campo description não pode ser nulo")
-  @Length(min = 10, max = 300, message = "A descrição deve conter entre 10 e 300 caracteres")
+  @Length(min = 10, max = 1000, message = "A descrição deve conter entre 10 e 1000 caracteres")
   private String description;
 
   @NotBlank(message = "Campo producer não pode ser vazio")
