@@ -21,7 +21,7 @@ public class Game implements Serializable {
     private Integer id;
     private String title;
 
-    @Column(name = "DESCRIPTION", nullable = false, length = 900)
+    @Column(name = "DESCRIPTION", nullable = false, length = 1000)
     private String description;
     private String producer;
     private String platforms;

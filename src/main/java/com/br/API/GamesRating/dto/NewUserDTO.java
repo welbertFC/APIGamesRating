@@ -22,6 +22,8 @@ public class NewUserDTO {
   private String nickName;
 
   @Email(message = "Formato de email invalido")
+  @NotBlank(message = "Campo email não pode ser vazio")
+  @NotNull(message = "Campo email não pode ser nulo")
   private String email;
 
   @Length(min = 6, max = 16, message = "Tamanho invalido")

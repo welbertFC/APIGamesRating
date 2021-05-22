@@ -20,7 +20,7 @@ public class FeedController {
     @GetMapping
     public ResponseEntity<Page<FeedDTO>> findAll(Pageable pageable) {
         var feed = feedService.findAll(pageable);
-        return ResponseEntity.ok().body(feed);
+        return ResponseEntity.ok(feed);
     }
 
 
