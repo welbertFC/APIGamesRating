@@ -20,7 +20,7 @@ public class Evaluation implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "EVALUATION", nullable = false, length = 900)
+    @Column(name = "EVALUATION", nullable = false, length = 1000)
     private String review;
 
     private LocalDateTime dateCreated;

@@ -81,9 +81,9 @@ public class GameService {
     }
     if (gameDTO.getDescription() == null
         || gameDTO.getDescription().length() < 10
-        || gameDTO.getDescription().length() > 300
+        || gameDTO.getDescription().length() > 1000
         || gameDTO.getDescription().isBlank()) {
-      throw new ObjectNotSaveException("A descrição deve conter entre 10 e 300 caracteres");
+      throw new ObjectNotSaveException("A descrição deve conter entre 10 e 1000 caracteres");
     }
   }
 

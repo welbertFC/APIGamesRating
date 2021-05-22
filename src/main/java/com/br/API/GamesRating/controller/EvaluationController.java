@@ -33,13 +33,13 @@ public class EvaluationController {
     @GetMapping("/user/{id}")
     public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByUser(@PathVariable Integer id, Pageable pageable) {
         var evaluation = evaluationService.findAllByUser(id, pageable);
-        return ResponseEntity.ok().body(evaluation);
+        return ResponseEntity.ok(evaluation);
     }
 
     @GetMapping("/game/{id}")
     public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByGame(@PathVariable Integer id, Pageable pageable) {
         var evaluation = evaluationService.findAllByGame(id, pageable);
-        return ResponseEntity.ok().body(evaluation);
+        return ResponseEntity.ok(evaluation);
     }
 
 

@@ -23,13 +23,13 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<ListUserDTO> findById(@PathVariable Integer id) {
         var user = userService.findById(id);
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping
     public ResponseEntity<Page<ListUserDTO>> findAll() {
         var user = userService.findAll();
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping
@@ -45,7 +45,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<ListUserDTO> update(@Valid @RequestBody UpdateUserDTO userDTO, @PathVariable Integer id) {
         var userUpdate = userService.update(id, userDTO);
-        return ResponseEntity.ok().body(userUpdate);
+        return ResponseEntity.ok(userUpdate);
     }
 
     @DeleteMapping("/{id}")

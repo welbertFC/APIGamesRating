@@ -32,6 +32,6 @@ public class NoteController {
     @GetMapping("/game/{id}")
     public ResponseEntity<Page<Note>> findByNoteGame(@PathVariable Integer id, Pageable pageable) {
         var note = noteService.findByIdGame(id, pageable);
-        return ResponseEntity.ok().body(note);
+        return ResponseEntity.ok(note);
     }
 }
