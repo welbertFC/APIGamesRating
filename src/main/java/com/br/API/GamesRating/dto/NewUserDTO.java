@@ -26,7 +26,6 @@ public class NewUserDTO {
   @NotNull(message = "Campo email não pode ser nulo")
   private String email;
 
-  @Length(min = 6, max = 16, message = "Tamanho invalido")
   @NotBlank(message = "Campo senha é obrigatorio")
   @NotNull(message = "Campo senha não pode ser nulo")
   private String password;
