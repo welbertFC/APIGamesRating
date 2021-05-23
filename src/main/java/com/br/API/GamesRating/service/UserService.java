@@ -77,6 +77,10 @@ public class UserService {
     if (user.getBirthDate().until(LocalDate.now(), ChronoUnit.YEARS) < 18) {
       throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
     }
+
+    if(user.getUrlImage() == null || user.getUrlImage().isBlank()){
+      user.setUrlImage("https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg");
+    }
   }
 
   public void ValidationUpdateUser(UpdateUserDTO userDTO, ListUserDTO listUserDTO) {

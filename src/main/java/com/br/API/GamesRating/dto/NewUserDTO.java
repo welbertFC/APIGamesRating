@@ -32,4 +32,6 @@ public class NewUserDTO {
 
   @NotNull(message = "Campo data de nascimento não pode ser nulo")
   private LocalDate birthDate;
+
+  private String urlImage;
 }
