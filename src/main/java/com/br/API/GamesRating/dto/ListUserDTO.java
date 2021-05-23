@@ -17,6 +17,7 @@ public class ListUserDTO {
   private String name;
   private String nickName;
   private String email;
+  private String urlImage;
 
   @JsonFormat(pattern = "dd/MM/yyyy")
   private LocalDate birthDate;
@@ -34,6 +35,7 @@ public class ListUserDTO {
     this.birthDate = user.get().getBirthDate();
     this.type = user.get().getType();
     this.dateCreated = user.get().getDateCreated();
+    this.urlImage = user.get().getUrlImage();
   }
 
   public ListUserDTO(UserClient userClient) {
@@ -44,5 +46,6 @@ public class ListUserDTO {
     this.birthDate = userClient.getBirthDate();
     this.type = userClient.getType();
     this.dateCreated = userClient.getDateCreated();
+    this.urlImage = userClient.getUrlImage();
   }
 }
