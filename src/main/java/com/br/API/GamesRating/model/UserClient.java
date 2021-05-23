@@ -53,7 +53,7 @@ public class UserClient implements Serializable {
         this.birthDate = userDTO.getBirthDate();
         this.type = "U";
         this.dateCreated = LocalDateTime.now();
-        this.urlImage = "https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg";
+        this.urlImage = userDTO.getUrlImage();
     }
 
     public UserClient(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
@@ -65,6 +65,6 @@ public class UserClient implements Serializable {
         this.birthDate = userDTO.getBirthDate();
         this.type = listUserDTO.getType();
         this.dateCreated = listUserDTO.getDateCreated();
-        this.urlImage = "https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg";
+        this.urlImage = listUserDTO.getUrlImage();
     }
 }
