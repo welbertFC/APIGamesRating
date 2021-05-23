@@ -34,6 +34,7 @@ public class UserClient implements Serializable {
     private LocalDate birthDate;
     private String type;
     private LocalDateTime dateCreated;
+    private String urlImage;
 
     @OneToMany(mappedBy = "userClient", cascade = CascadeType.ALL)
     private List<Note> notes = new ArrayList<>();
@@ -52,6 +53,7 @@ public class UserClient implements Serializable {
         this.birthDate = userDTO.getBirthDate();
         this.type = "U";
         this.dateCreated = LocalDateTime.now();
+        this.urlImage = "https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg";
     }
 
     public UserClient(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
@@ -63,5 +65,6 @@ public class UserClient implements Serializable {
         this.birthDate = userDTO.getBirthDate();
         this.type = listUserDTO.getType();
         this.dateCreated = listUserDTO.getDateCreated();
+        this.urlImage = "https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg";
     }
 }
