@@ -22,9 +22,10 @@ public class UserService {
 
   @Autowired private UserRepository userRepository;
 
-  public UserClient insert(NewUserDTO user) {
+  public ListUserDTO insert(NewUserDTO user) {
     validationUser(user);
-    return userRepository.save(new UserClient(user));
+    var newUser = userRepository.save(new UserClient(user));
+    return findById(newUser.getId());
   }
 
   public ListUserDTO findById(Integer id) {
