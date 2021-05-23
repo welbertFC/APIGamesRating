@@ -33,13 +33,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserClient> insert(@Valid @RequestBody NewUserDTO newUserDTO) {
+    public ResponseEntity<ListUserDTO> insert(@Valid @RequestBody NewUserDTO newUserDTO) {
         var newUser = userService.insert(newUserDTO);
-        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newUser.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.ok(newUser);
     }
 
     @PutMapping("/{id}")
