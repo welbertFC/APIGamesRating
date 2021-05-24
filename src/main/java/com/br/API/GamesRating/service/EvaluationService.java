@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class EvaluationService {
 
-  @Autowired private UserService userService;
+  @Autowired private UserClientService userClientService;
 
   @Autowired private GameService gameService;
 
@@ -69,7 +69,7 @@ public class EvaluationService {
   }
 
   private Evaluation validationInsertEvaluation(NewEvaluationDTO evaluationDTO) {
-    var user = userService.findByIdUser(evaluationDTO.getUser());
+    var user = userClientService.findByIdUser(evaluationDTO.getUser());
     var game = gameService.findById(evaluationDTO.getGame());
     var evaluations = findAll();
     evaluations.forEach(

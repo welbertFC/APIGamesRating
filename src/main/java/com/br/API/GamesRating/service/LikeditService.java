@@ -16,7 +16,7 @@ public class LikeditService {
 
   @Autowired private LikeditRepository likeditRepository;
 
-  @Autowired private UserService userService;
+  @Autowired private UserClientService userClientService;
 
   @Autowired private EvaluationService evaluationService;
 
@@ -31,7 +31,7 @@ public class LikeditService {
   }
 
   public Likedit update(NewLikeditDTO likeditDTO) {
-    userService.findByIdUser(likeditDTO.getUser());
+    userClientService.findByIdUser(likeditDTO.getUser());
     evaluationService.findById(likeditDTO.getEvaluation());
     var linkedit =
         likeditRepository.findByUserClient_IdAndAndEvaluation_Id(
@@ -71,7 +71,7 @@ public class LikeditService {
   }
 
   private Likedit validationInsert(NewLikeditDTO likeditDTO) {
-    var user = userService.findByIdUser(likeditDTO.getUser());
+    var user = userClientService.findByIdUser(likeditDTO.getUser());
     var evaluation = evaluationService.findById(likeditDTO.getEvaluation());
     var likes = likeditRepository.findAll();
     likes.forEach(
