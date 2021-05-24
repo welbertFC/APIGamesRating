@@ -1,7 +1,6 @@
 package com.br.API.GamesRating.controller;
 
 import com.br.API.GamesRating.dto.NewLikeditDTO;
-import com.br.API.GamesRating.dto.UpdateLikeditDTO;
 import com.br.API.GamesRating.model.Likedit;
 import com.br.API.GamesRating.service.LikeditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,5 @@ public class LikeditController {
             .buildAndExpand(likedit.getId())
             .toUri();
     return ResponseEntity.created(uri).build();
-  }
-
-  @PutMapping("/user/{idUser}/evaluation/{idEvaluation}")
-  public ResponseEntity<Likedit> update(
-      @Valid @RequestBody UpdateLikeditDTO likeditDTO,
-      @PathVariable Integer idUser,
-      @PathVariable Integer idEvaluation) {
-    var likedit = likeditService.update(idEvaluation, idUser, likeditDTO);
-    return ResponseEntity.ok(likedit);
   }
 }

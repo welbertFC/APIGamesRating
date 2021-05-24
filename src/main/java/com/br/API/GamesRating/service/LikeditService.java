@@ -1,7 +1,6 @@
 package com.br.API.GamesRating.service;
 
 import com.br.API.GamesRating.dto.NewLikeditDTO;
-import com.br.API.GamesRating.dto.UpdateLikeditDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Likedit;
@@ -22,16 +21,20 @@ public class LikeditService {
   @Autowired private EvaluationService evaluationService;
 
   public Likedit insert(NewLikeditDTO likeditDTO) {
-    var likedit = validationInsert(likeditDTO);
-    return likeditRepository.save(likedit);
+    var like = likeditRepository.findByUserClient_IdAndAndEvaluation_Id(likeditDTO.getUser(), likeditDTO.getEvaluation());
+    if (like == null){
+      var newLike = validationInsert(likeditDTO);
+      return likeditRepository.save(newLike);
+    }else
+     return update(likeditDTO);
   }
 
-  public Likedit update(Integer idEvaluation, Integer idUser, UpdateLikeditDTO likeditDTO) {
-    userService.findByIdUser(idUser);
-    evaluationService.findById(idEvaluation);
-    var linkedit = likeditRepository.findByUserClient_IdAndAndEvaluation_Id(idUser, idEvaluation);
+  public Likedit update(NewLikeditDTO likeditDTO) {
+    userService.findByIdUser(likeditDTO.getUser());
+    evaluationService.findById(likeditDTO.getEvaluation());
+    var linkedit = likeditRepository.findByUserClient_IdAndAndEvaluation_Id(likeditDTO.getUser(), likeditDTO.getEvaluation());
     if (linkedit == null) throw new ObjectNotFoundException("Resenha ainda não foi Avaliada");
-    return likeditRepository.save(new Likedit(linkedit.getId(), linkedit, likeditDTO));
+    return likeditRepository.save(new Likedit(linkedit.getId(), linkedit, likeditDTO.getLikeDit()));
   }
 
   public Integer sumLike(Integer idEvaluation) {
