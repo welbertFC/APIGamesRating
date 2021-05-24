@@ -1,7 +1,6 @@
 package com.br.API.GamesRating.model;
 
 import com.br.API.GamesRating.dto.NewLikeditDTO;
-import com.br.API.GamesRating.dto.UpdateLikeditDTO;
 import com.br.API.GamesRating.model.enums.LikeditEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -38,9 +37,9 @@ public class Likedit implements Serializable {
         this.evaluation = evaluation;
     }
 
-    public Likedit(Integer id, Likedit linkedit, UpdateLikeditDTO likeditDTO) {
+    public Likedit(Integer id, Likedit linkedit, Integer likedit) {
         this.id = id;
-        this.likeDit = likeditDTO.getLikeDit();
+        this.likeDit = likedit;
         this.userClient = linkedit.getUserClient();
         this.evaluation = linkedit.getEvaluation();
 
