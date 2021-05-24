@@ -4,6 +4,7 @@ package com.br.API.GamesRating.model;
 import com.br.API.GamesRating.dto.ListUserDTO;
 import com.br.API.GamesRating.dto.NewUserDTO;
 import com.br.API.GamesRating.dto.UpdateUserDTO;
+import com.br.API.GamesRating.model.enums.UserProfile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -32,7 +36,11 @@ public class UserClient implements Serializable {
     private String email;
     private String password;
     private LocalDate birthDate;
-    private String type;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PROFILE")
+    private Set<Integer> profile = new HashSet<>();
+
     private LocalDateTime dateCreated;
     private String urlImage;
 
@@ -45,15 +53,17 @@ public class UserClient implements Serializable {
     @OneToMany(mappedBy = "userClient", cascade = CascadeType.ALL)
     private List<Likedit> likedits = new ArrayList<>();
 
-    public UserClient(NewUserDTO userDTO) {
+
+
+    public UserClient(NewUserDTO userDTO, String password) {
         this.name = userDTO.getName();
         this.nickName = userDTO.getNickName();
         this.email = userDTO.getEmail();
-        this.password = userDTO.getPassword();
+        this.password = password;
         this.birthDate = userDTO.getBirthDate();
-        this.type = "U";
         this.dateCreated = LocalDateTime.now();
         this.urlImage = userDTO.getUrlImage();
+        addPerfil(UserProfile.USER);
     }
 
     public UserClient(Integer id, UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
@@ -63,8 +73,17 @@ public class UserClient implements Serializable {
         this.email = listUserDTO.getEmail();
         this.password = userDTO.getPassword();
         this.birthDate = userDTO.getBirthDate();
-        this.type = listUserDTO.getType();
         this.dateCreated = listUserDTO.getDateCreated();
         this.urlImage = listUserDTO.getUrlImage();
+    }
+
+
+    public Set<UserProfile> getProfile() {
+        return profile.stream().map(x -> UserProfile.toEnum(x)).collect(Collectors.toSet());
+
+    }
+
+    public void addPerfil(UserProfile perfil) {
+        profile.add(perfil.getCode());
     }
 }

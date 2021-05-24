@@ -16,7 +16,7 @@ public class NoteService {
 
   @Autowired private NoteRepository noteRepository;
 
-  @Autowired private UserService userService;
+  @Autowired private UserClientService userClientService;
 
   @Autowired private GameService gameService;
 
@@ -34,7 +34,7 @@ public class NoteService {
   }
 
   private Note validationNote(NewNoteDTO newNoteDTO) {
-    var user = userService.findByIdUser(newNoteDTO.getUser());
+    var user = userClientService.findByIdUser(newNoteDTO.getUser());
     var game = gameService.findById(newNoteDTO.getGame());
     var notes = findAll();
     notes.forEach(

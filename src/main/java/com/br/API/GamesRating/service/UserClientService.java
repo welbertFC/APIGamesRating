@@ -7,9 +7,11 @@ import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.UserClient;
 import com.br.API.GamesRating.repository.UserRepository;
+import com.br.API.GamesRating.security.SecuritySetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,13 +20,18 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserClientService {
+
+  @Autowired
+  private SecuritySetting passwordEncoder;
+
 
   @Autowired private UserRepository userRepository;
 
   public ListUserDTO insert(NewUserDTO user) {
     validationUser(user);
-    var newUser = userRepository.save(new UserClient(user));
+    var password = passwordEncoder.bCryptPasswordEncoder().encode(user.getPassword());
+    var newUser = userRepository.save(new UserClient(user, password));
     return findById(newUser.getId());
   }
 
@@ -81,6 +88,7 @@ public class UserService {
     if(user.getUrlImage() == null || user.getUrlImage().isBlank()){
       user.setUrlImage("https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg");
     }
+
   }
 
   public void ValidationUpdateUser(UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
