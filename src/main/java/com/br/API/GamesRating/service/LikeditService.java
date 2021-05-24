@@ -21,18 +21,21 @@ public class LikeditService {
   @Autowired private EvaluationService evaluationService;
 
   public Likedit insert(NewLikeditDTO likeditDTO) {
-    var like = likeditRepository.findByUserClient_IdAndAndEvaluation_Id(likeditDTO.getUser(), likeditDTO.getEvaluation());
-    if (like == null){
+    var like =
+        likeditRepository.findByUserClient_IdAndAndEvaluation_Id(
+            likeditDTO.getUser(), likeditDTO.getEvaluation());
+    if (like == null) {
       var newLike = validationInsert(likeditDTO);
       return likeditRepository.save(newLike);
-    }else
-     return update(likeditDTO);
+    } else return update(likeditDTO);
   }
 
   public Likedit update(NewLikeditDTO likeditDTO) {
     userService.findByIdUser(likeditDTO.getUser());
     evaluationService.findById(likeditDTO.getEvaluation());
-    var linkedit = likeditRepository.findByUserClient_IdAndAndEvaluation_Id(likeditDTO.getUser(), likeditDTO.getEvaluation());
+    var linkedit =
+        likeditRepository.findByUserClient_IdAndAndEvaluation_Id(
+            likeditDTO.getUser(), likeditDTO.getEvaluation());
     if (linkedit == null) throw new ObjectNotFoundException("Resenha ainda não foi Avaliada");
     return likeditRepository.save(new Likedit(linkedit.getId(), linkedit, likeditDTO.getLikeDit()));
   }
