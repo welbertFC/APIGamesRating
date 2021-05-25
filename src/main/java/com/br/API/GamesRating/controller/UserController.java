@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 
@@ -34,7 +35,11 @@ public class UserController {
   @PostMapping
   public ResponseEntity<ListUserDTO> insert(@Valid @RequestBody NewUserDTO newUserDTO) {
     var newUser = userClientService.insert(newUserDTO);
-    return ResponseEntity.ok(newUser);
+    var uri = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(newUser.getId())
+            .toUri();
+    return ResponseEntity.created(uri).build();
   }
 
   @PutMapping("/{id}")
