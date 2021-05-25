@@ -124,4 +124,17 @@ public class ResourceExceptionHandler {
             request.getRequestURI());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
   }
+
+  @ExceptionHandler(AuthorizationException.class)
+  public ResponseEntity<StandardException> objectNotFound(
+          AuthorizationException e, HttpServletRequest request) {
+    StandardException error =
+            new StandardException(
+                    HttpStatus.FORBIDDEN.value(),
+                    "Não autorizado",
+                    e.getMessage(),
+                    System.currentTimeMillis(),
+                    request.getRequestURI());
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+  }
 }

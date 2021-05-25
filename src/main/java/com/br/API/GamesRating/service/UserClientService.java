@@ -3,9 +3,11 @@ package com.br.API.GamesRating.service;
 import com.br.API.GamesRating.dto.ListUserDTO;
 import com.br.API.GamesRating.dto.NewUserDTO;
 import com.br.API.GamesRating.dto.UpdateUserDTO;
+import com.br.API.GamesRating.exception.AuthorizationException;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.UserClient;
+import com.br.API.GamesRating.model.enums.UserProfile;
 import com.br.API.GamesRating.repository.UserRepository;
 import com.br.API.GamesRating.security.SecuritySetting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,11 @@ public class UserClientService {
   }
 
   public ListUserDTO findById(Integer id) {
+    var userSS = UserService.authenticated();
+    if (userSS == null || !userSS.hasRole(UserProfile.ADMIN) && !id.equals(userSS.getId())){
+      throw new AuthorizationException("Acesso negado");
+    }
+
     var user = userRepository.findById(id);
     user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
     return new ListUserDTO(user);
