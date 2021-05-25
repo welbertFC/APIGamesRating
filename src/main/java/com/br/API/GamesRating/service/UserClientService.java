@@ -30,11 +30,11 @@ public class UserClientService {
 
   @Autowired private UserRepository userRepository;
 
-  public ListUserDTO insert(NewUserDTO user) {
+  public UserClient insert(NewUserDTO user) {
     validationUser(user);
     var password = passwordEncoder.bCryptPasswordEncoder().encode(user.getPassword());
-    var newUser = userRepository.save(new UserClient(user, password));
-    return findById(newUser.getId());
+    return userRepository.save(new UserClient(user, password));
+
   }
 
   public ListUserDTO findById(Integer id) {
