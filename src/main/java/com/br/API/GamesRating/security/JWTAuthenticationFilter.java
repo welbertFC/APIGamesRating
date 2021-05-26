@@ -3,6 +3,7 @@ package com.br.API.GamesRating.security;
 import com.br.API.GamesRating.dto.LoginDTO;
 import com.br.API.GamesRating.service.UserClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,11 +58,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       throws IOException, ServletException {
 
     var username = ((UserSS) authentication.getPrincipal()).getUsername();
-    var idUser = ( (UserSS) authentication.getPrincipal()).getId().toString();
+    var idUser = ((UserSS) authentication.getPrincipal()).getId();
     var token = jwtUtil.generateToken(username);
-    var cliente = clientService.findByIdUser(Integer.parseInt(idUser));
+   // var cliente = clientService.findById(idUser);
+
+    Gson gson = new Gson();
+    //String teste = gson.toJson(cliente);
     response.addHeader("Authorization", "Bearer " + token);
-    response.getWriter().append((CharSequence) cliente);
+    response.getWriter().append(idUser.toString());
   }
 
   private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
