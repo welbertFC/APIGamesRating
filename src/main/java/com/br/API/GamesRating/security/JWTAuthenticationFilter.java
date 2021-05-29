@@ -58,14 +58,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       throws IOException, ServletException {
 
     var username = ((UserSS) authentication.getPrincipal()).getUsername();
-    var idUser = ((UserSS) authentication.getPrincipal()).getId();
+    var user = ((UserSS) authentication.getPrincipal());
     var token = jwtUtil.generateToken(username);
-   // var cliente = clientService.findById(idUser);
 
-    Gson gson = new Gson();
-    //String teste = gson.toJson(cliente);
+    var gson = new Gson();
+    String userJson = gson.toJson(user);
     response.addHeader("Authorization", "Bearer " + token);
-    response.getWriter().append(idUser.toString());
+    response.getWriter().append(userJson);
   }
 
   private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
