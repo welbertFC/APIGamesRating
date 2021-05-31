@@ -33,8 +33,23 @@ public class GameRepositoryImpl implements GameRepositoryCustom{
         if(filterGame.getTitle() != null){
             predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), "%" + filterGame.getTitle().toUpperCase() + "%"));
         }
+        if(filterGame.getDescription() != null){
+            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("description")), "%" + filterGame.getDescription().toUpperCase() + "%"));
+        }
+        if(filterGame.getProducer() != null){
+            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("producer")), "%" + filterGame.getProducer().toUpperCase() + "%"));
+        }
+        if(filterGame.getPlatforms() != null){
+            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("platforms")), "%" + filterGame.getPlatforms().toUpperCase() + "%"));
+        }
+
+        predicates.add(criteriaBuilder.equal(root.get("active"), true));
+
+
+
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("title")));
         var gameslist = entityManager.createQuery(criteriaQuery).getResultList();
 
         return new PageImpl<>(gameslist) ;

@@ -8,4 +8,7 @@ import lombok.NoArgsConstructor;
 public class FilterGame {
 
     private String title;
+    private String description;
+    private String producer;
+    private String platforms;
 }
