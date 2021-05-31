@@ -41,11 +41,7 @@ public class NoteService {
         obj -> {
           if (obj.getUserClient().getId().equals(newNoteDTO.getUser())
               && obj.getGame().getId().equals(newNoteDTO.getGame())) {
-            throw new ObjectNotSaveException(
-                "O Usuario: "
-                    + obj.getUserClient().getName()
-                    + " Já avaliou o jogo: "
-                    + obj.getGame().getTitle());
+            throw new ObjectNotSaveException("Você já avaliou o jogo: " + obj.getGame().getTitle());
           }
         });
     return new Note(newNoteDTO, user, game);

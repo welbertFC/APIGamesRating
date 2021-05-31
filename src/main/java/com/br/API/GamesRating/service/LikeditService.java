@@ -94,8 +94,7 @@ public class LikeditService {
         obj -> {
           if (obj.getUserClient().getId().equals(likeditDTO.getUser())
               && obj.getEvaluation().getId().equals(likeditDTO.getEvaluation())) {
-            throw new ObjectNotSaveException(
-                "Usuario " + obj.getUserClient().getName() + " Já curtiu esta resenha");
+            throw new ObjectNotSaveException("Você já curtiu esta resenha");
           }
         });
 
