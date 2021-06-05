@@ -1,10 +1,8 @@
 package com.br.API.GamesRating.security;
 
 import com.br.API.GamesRating.dto.LoginDTO;
-import com.br.API.GamesRating.service.UserClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,8 +24,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   private JWTUtil jwtUtil;
 
-  @Autowired
-  private UserClientService clientService;
 
   public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
     this.authenticationManager = authenticationManager;

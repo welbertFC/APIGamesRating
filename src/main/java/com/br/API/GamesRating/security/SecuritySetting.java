@@ -25,26 +25,27 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecuritySetting extends WebSecurityConfigurerAdapter {
 
+  public static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
+  public static final String[] PUBLIC_MATCHERS_GET = {"/game/**"};
+  public static final String[] PUBLIC_MATCHERS_POST = {"/user/**"};
   @Autowired private Environment environment;
-
   @Autowired private UserDetailsService userDetailsService;
-
   @Autowired private JWTUtil jwtUtil;
 
-  public static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
+  @Override
+  public void configure(WebSecurity web) {
+    web.ignoring()
+        .antMatchers(
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/**",
+            "/swagger-ui.html",
+            "/webjars/**");
+  }
 
-  public static final String[] PUBLIC_MATCHERS_GET = {"/game/**"};
-
-  public static final String[] PUBLIC_MATCHERS_POST = {"/user/**"};
-
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**",
-                "/swagger-ui.html", "/webjars/**");
-    }
-
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+  @Override
+  protected void configure(HttpSecurity httpSecurity) throws Exception {
 
     if (Arrays.asList(environment.getActiveProfiles()).contains("test")) {
       httpSecurity.headers().frameOptions().disable();
@@ -83,5 +84,4 @@ public class SecuritySetting extends WebSecurityConfigurerAdapter {
   public BCryptPasswordEncoder bCryptPasswordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
 }

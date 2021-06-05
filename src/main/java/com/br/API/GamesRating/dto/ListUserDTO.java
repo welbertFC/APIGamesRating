@@ -24,7 +24,6 @@ public class ListUserDTO {
   @JsonFormat(pattern = "dd/MM/yyyy")
   private LocalDate birthDate;
 
-  private Set<UserProfile> profile;
 
   @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
   private LocalDateTime dateCreated;
@@ -35,7 +34,6 @@ public class ListUserDTO {
     this.nickName = user.get().getNickName();
     this.email = user.get().getEmail();
     this.birthDate = user.get().getBirthDate();
-    this.profile = user.get().getProfile();
     this.dateCreated = user.get().getDateCreated();
     this.urlImage = user.get().getUrlImage();
   }
@@ -46,7 +44,6 @@ public class ListUserDTO {
     this.nickName = userClient.getNickName();
     this.email = userClient.getEmail();
     this.birthDate = userClient.getBirthDate();
-    this.profile = userClient.getProfile();
     this.dateCreated = userClient.getDateCreated();
     this.urlImage = userClient.getUrlImage();
   }

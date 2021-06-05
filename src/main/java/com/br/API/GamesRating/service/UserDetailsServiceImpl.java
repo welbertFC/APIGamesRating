@@ -26,13 +26,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return new UserSS(
         user.getId(),
         user.getName(),
-        user.getName(),
+        user.getNickName(),
         user.getEmail(),
         fomateLocalDate(user.getBirthDate()),
         fomateLocalDateTime(user.getDateCreated()),
         user.getUrlImage(),
-        user.getPassword(),
-        user.getProfile());
+        user.getPassword());
+
   }
 
   public String fomateLocalDate(LocalDate date) {

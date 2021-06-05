@@ -2,17 +2,13 @@ package com.br.API.GamesRating.security;
 
 import com.br.API.GamesRating.model.enums.UserProfile;
 import com.br.API.GamesRating.util.DateFormate;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UserSS implements UserDetails {
 
@@ -38,24 +34,20 @@ public class UserSS implements UserDetails {
       String birthDate,
       String dateCreated,
       String urlImage,
-      String password,
-      Set<UserProfile> profile) {
+      String password) {
     this.id = id;
     this.name = name;
     this.nickname = nickname;
     this.birthDate = birthDate;
-    this.dateCreated = dateCreated.toString();
+    this.dateCreated = dateCreated;
     this.urlImage = urlImage;
     this.email = email;
     this.password = password;
-    this.authorities =
-        profile.stream()
-            .map(x -> new SimpleGrantedAuthority(x.getDescription()))
-            .collect(Collectors.toList());
   }
 
   public UserSS() {}
 
+  @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return authorities;
@@ -65,10 +57,12 @@ public class UserSS implements UserDetails {
     return id;
   }
 
+  @JsonIgnore
   @Override
   public String getPassword() {
     return password;
   }
+
 
   @Override
   public String getUsername() {
