@@ -76,10 +76,7 @@ public class EvaluationService {
         obj -> {
           if (obj.getUserClient().getId().equals(evaluationDTO.getUser())
               && obj.getGame().getId().equals(evaluationDTO.getGame())) {
-            throw new ObjectNotSaveException(
-                "O Usuario: "
-                    + obj.getUserClient().getName()
-                    + " Já fez uma resenha sobre este jogo");
+            throw new ObjectNotSaveException("Você já fez uma resenha sobre este jogo");
           }
         });
 

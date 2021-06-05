@@ -3,6 +3,8 @@ package com.br.API.GamesRating.controller;
 import com.br.API.GamesRating.dto.NewNoteDTO;
 import com.br.API.GamesRating.model.Note;
 import com.br.API.GamesRating.service.NoteService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,12 +16,14 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/note")
+@Api(tags = "Nota do Jogo")
 public class NoteController {
 
     @Autowired
     private NoteService noteService;
 
     @PostMapping
+    @ApiOperation(value = "Inserir nota do Jogo")
     public ResponseEntity<Note> insert(@Valid @RequestBody NewNoteDTO newNoteDTO) {
         var note = noteService.insert(newNoteDTO);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -30,6 +34,7 @@ public class NoteController {
     }
 
     @GetMapping("/game/{id}")
+    @ApiOperation(value = "Busca todas as notas do jogo pelo Id do jogo")
     public ResponseEntity<Page<Note>> findByNoteGame(@PathVariable Integer id, Pageable pageable) {
         var note = noteService.findByIdGame(id, pageable);
         return ResponseEntity.ok(note);
