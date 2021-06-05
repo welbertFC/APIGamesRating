@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 
@@ -18,8 +20,7 @@ import javax.validation.Valid;
 @Api(tags = "Usuario")
 public class UserController {
 
-    @Autowired
-    private UserClientService userClientService;
+  @Autowired private UserClientService userClientService;
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Busca o usuario por ID")
@@ -28,6 +29,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     @ApiOperation(value = "Busca todos os usuarios")
     public ResponseEntity<Page<ListUserDTO>> findAll() {
@@ -35,12 +37,16 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping
-    @ApiOperation(value = "Inseri um novo Usuario")
-    public ResponseEntity<ListUserDTO> insert(@Valid @RequestBody NewUserDTO newUserDTO) {
-        var newUser = userClientService.insert(newUserDTO);
-        return ResponseEntity.ok(newUser);
-    }
+  @ApiOperation(value = "Inseri um novo Usuario")
+  @PostMapping
+  public ResponseEntity<ListUserDTO> insert(@Valid @RequestBody NewUserDTO newUserDTO) {
+    var newUser = userClientService.insert(newUserDTO);
+    var uri = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(newUser.getId())
+            .toUri();
+    return ResponseEntity.created(uri).build();
+  }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualiza um usuario")

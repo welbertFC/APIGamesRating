@@ -3,6 +3,7 @@ package com.br.API.GamesRating.service;
 import com.br.API.GamesRating.dto.ListUserDTO;
 import com.br.API.GamesRating.dto.NewUserDTO;
 import com.br.API.GamesRating.dto.UpdateUserDTO;
+import com.br.API.GamesRating.exception.AuthorizationException;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.UserClient;
@@ -11,7 +12,6 @@ import com.br.API.GamesRating.security.SecuritySetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,14 +28,19 @@ public class UserClientService {
 
   @Autowired private UserRepository userRepository;
 
-  public ListUserDTO insert(NewUserDTO user) {
+  public UserClient insert(NewUserDTO user) {
     validationUser(user);
     var password = passwordEncoder.bCryptPasswordEncoder().encode(user.getPassword());
-    var newUser = userRepository.save(new UserClient(user, password));
-    return findById(newUser.getId());
+    return userRepository.save(new UserClient(user, password));
+
   }
 
   public ListUserDTO findById(Integer id) {
+    var userSS = UserService.authenticated();
+    if (userSS == null && !id.equals(userSS.getId())){
+      throw new AuthorizationException("Acesso negado");
+    }
+
     var user = userRepository.findById(id);
     user.orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
     return new ListUserDTO(user);
