@@ -60,7 +60,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     var gson = new Gson();
     String userJson = gson.toJson(user);
+    response.setCharacterEncoding("UTF8");
+    response.setContentType("application/json");
     response.addHeader("Authorization", "Bearer " + token);
+    response.addHeader("access-control-expose-headers", "Authorization");
     response.getWriter().append(userJson);
   }
 
