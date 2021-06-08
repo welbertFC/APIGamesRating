@@ -33,4 +33,7 @@ public class ListEvaluationDTO {
     this.like = likedit;
     this.dislike = dislike;
   }
+
+  public ListEvaluationDTO(Evaluation newEvaluation) {
+  }
 }
