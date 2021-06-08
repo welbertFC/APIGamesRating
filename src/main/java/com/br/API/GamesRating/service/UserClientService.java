@@ -1,8 +1,6 @@
 package com.br.API.GamesRating.service;
 
-import com.br.API.GamesRating.dto.ListUserDTO;
-import com.br.API.GamesRating.dto.NewUserDTO;
-import com.br.API.GamesRating.dto.UpdateUserDTO;
+import com.br.API.GamesRating.dto.*;
 import com.br.API.GamesRating.exception.AuthorizationException;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
@@ -59,6 +57,17 @@ public class UserClientService {
             .sorted(Comparator.comparing(ListUserDTO::getName))
             .collect(Collectors.toList());
     return new PageImpl<>(userList);
+  }
+
+  public UserEmailDto checkEmail(CheckUserEmail email){
+    var user = userRepository.findByEmail(email.getEmail());
+    var userEmailDto = new UserEmailDto();
+    if(user == null){
+      userEmailDto.setRegistered(false);
+    }else {
+      userEmailDto.setRegistered(true);
+    }
+    return userEmailDto;
   }
 
   public ListUserDTO update(Integer id, UpdateUserDTO updateUserDTO) {

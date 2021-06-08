@@ -1,8 +1,6 @@
 package com.br.API.GamesRating.controller;
 
-import com.br.API.GamesRating.dto.ListUserDTO;
-import com.br.API.GamesRating.dto.NewUserDTO;
-import com.br.API.GamesRating.dto.UpdateUserDTO;
+import com.br.API.GamesRating.dto.*;
 import com.br.API.GamesRating.service.UserClientService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +44,12 @@ public class UserController {
             .buildAndExpand(newUser.getId())
             .toUri();
     return ResponseEntity.created(uri).build();
+  }
+
+  @PostMapping("/check/email")
+  public ResponseEntity<UserEmailDto> checkUserEmail(@Valid @RequestBody CheckUserEmail checkUserEmail){
+        var userEmail = userClientService.checkEmail(checkUserEmail);
+        return ResponseEntity.ok(userEmail);
   }
 
     @PutMapping("/{id}")
