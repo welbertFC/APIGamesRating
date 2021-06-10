@@ -28,6 +28,7 @@ public class FeedController {
   }
 
   @GetMapping("/user/{id}")
+  @ApiOperation(value = "Buscar o feed por usuario")
   public ResponseEntity<Page<FeedDTO>> findUser(@PathVariable Integer id, Pageable pageable) {
     var feed = feedService.feedByUser(id, pageable);
     return ResponseEntity.ok(feed);
