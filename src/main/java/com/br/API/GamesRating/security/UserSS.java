@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UserSS implements UserDetails {
 
@@ -27,14 +29,15 @@ public class UserSS implements UserDetails {
 
 
   public UserSS(
-      Integer id,
-      String name,
-      String nickname,
-      String email,
-      String birthDate,
-      String dateCreated,
-      String urlImage,
-      String password) {
+          Integer id,
+          String name,
+          String nickname,
+          String email,
+          String birthDate,
+          String dateCreated,
+          String urlImage,
+          String password,
+          Set<UserProfile> profiles) {
     this.id = id;
     this.name = name;
     this.nickname = nickname;
@@ -43,6 +46,7 @@ public class UserSS implements UserDetails {
     this.urlImage = urlImage;
     this.email = email;
     this.password = password;
+    this.authorities = profiles.stream().map(obj -> new SimpleGrantedAuthority(obj.getDescription())).collect(Collectors.toList());
   }
 
   public UserSS() {}

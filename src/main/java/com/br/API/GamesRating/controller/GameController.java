@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,6 +42,7 @@ public class GameController {
         return ResponseEntity.ok(game);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     @ApiOperation(value = "Inserir novo Jogo")
     private ResponseEntity<Void> insert(
@@ -62,6 +64,7 @@ public class GameController {
         return null;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar Jogo")
     private ResponseEntity<Game> update(
@@ -70,6 +73,7 @@ public class GameController {
         return ResponseEntity.ok(updateGame);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PatchMapping("/{id}/image")
     @ApiOperation(value = "Atualizar Imagem do Jogo")
     public ResponseEntity<Void> saveImage(
