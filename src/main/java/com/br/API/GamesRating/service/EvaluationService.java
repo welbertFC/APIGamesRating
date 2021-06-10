@@ -74,9 +74,10 @@ public class EvaluationService {
     evaluationRepository.delete(evaluation);
   }
 
-  public Evaluation updateEvaluation (Integer id, UpdateEvaluationDTO evaluationDTO){
+  public ListEvaluationDTO updateEvaluation (Integer id, UpdateEvaluationDTO evaluationDTO){
     var evaluation = findById(id);
-    return evaluationRepository.save(new Evaluation(evaluation, evaluationDTO));
+    var newEvaluation = evaluationRepository.save(new Evaluation(id ,evaluation, evaluationDTO));
+    return new ListEvaluationDTO(newEvaluation);
 
   }
 

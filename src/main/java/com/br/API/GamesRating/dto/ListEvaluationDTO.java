@@ -34,6 +34,11 @@ public class ListEvaluationDTO {
     this.dislike = dislike;
   }
 
-  public ListEvaluationDTO(Evaluation newEvaluation) {
+  public ListEvaluationDTO(Evaluation evaluation) {
+    this.id = evaluation.getId();
+    this.review = evaluation.getReview();
+    this.dateCreated = evaluation.getDateCreated();
+    this.game = evaluation.getGame().getId();
+    this.user = evaluation.getUserClient().getId();
   }
 }

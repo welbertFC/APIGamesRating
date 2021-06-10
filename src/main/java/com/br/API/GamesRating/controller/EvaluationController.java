@@ -2,6 +2,7 @@ package com.br.API.GamesRating.controller;
 
 import com.br.API.GamesRating.dto.ListEvaluationDTO;
 import com.br.API.GamesRating.dto.NewEvaluationDTO;
+import com.br.API.GamesRating.dto.UpdateEvaluationDTO;
 import com.br.API.GamesRating.model.Evaluation;
 import com.br.API.GamesRating.service.EvaluationService;
 import io.swagger.annotations.Api;
@@ -49,6 +50,18 @@ public class EvaluationController {
     public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByGame(@PathVariable Integer id, Pageable pageable) {
         var evaluation = evaluationService.findAllByGame(id, pageable);
         return ResponseEntity.ok(evaluation);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ListEvaluationDTO> updateEvaluation (@Valid @RequestBody UpdateEvaluationDTO updateEvaluationDTO, @PathVariable Integer id){
+        var upEvaluation = evaluationService.updateEvaluation(id, updateEvaluationDTO);
+        return ResponseEntity.ok(upEvaluation);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEvaluation(@PathVariable Integer id){
+        evaluationService.deleteEvaluation(id);
+        return ResponseEntity.ok().build();
     }
 
 

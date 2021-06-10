@@ -45,7 +45,8 @@ public class Evaluation implements Serializable {
         this.userClient = userClient;
     }
 
-    public Evaluation(Evaluation evaluation, UpdateEvaluationDTO evaluationDTO) {
+    public Evaluation(Integer id, Evaluation evaluation, UpdateEvaluationDTO evaluationDTO) {
+        this.id = id;
         this.review = evaluationDTO.getReview();
         this.dateCreated = evaluation.getDateCreated();
         this.game = evaluation.getGame();
