@@ -31,4 +31,11 @@ public class FeedService {
             .collect(Collectors.toList());
     return new PageImpl<>(feed);
   }
+
+  public Page<FeedDTO> feedByUser(Integer idUser, Pageable pageable) {
+    var feed = findAll(pageable);
+    var feedUser =
+        feed.stream().filter(obj -> obj.getIdUser().equals(idUser)).collect(Collectors.toList());
+    return new PageImpl<>(feedUser);
+  }
 }
