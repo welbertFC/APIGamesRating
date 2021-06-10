@@ -1,6 +1,7 @@
 package com.br.API.GamesRating.service;
 
 import com.br.API.GamesRating.dto.ListEvaluationDTO;
+import com.br.API.GamesRating.dto.ListUpdateEvaluationDTO;
 import com.br.API.GamesRating.dto.NewEvaluationDTO;
 import com.br.API.GamesRating.dto.UpdateEvaluationDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
@@ -74,10 +75,10 @@ public class EvaluationService {
     evaluationRepository.delete(evaluation);
   }
 
-  public ListEvaluationDTO updateEvaluation (Integer id, UpdateEvaluationDTO evaluationDTO){
+  public ListUpdateEvaluationDTO updateEvaluation (Integer id, UpdateEvaluationDTO evaluationDTO){
     var evaluation = findById(id);
     var newEvaluation = evaluationRepository.save(new Evaluation(id ,evaluation, evaluationDTO));
-    return new ListEvaluationDTO(newEvaluation);
+    return new ListUpdateEvaluationDTO(newEvaluation);
 
   }
 

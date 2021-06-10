@@ -1,6 +1,7 @@
 package com.br.API.GamesRating.controller;
 
 import com.br.API.GamesRating.dto.ListEvaluationDTO;
+import com.br.API.GamesRating.dto.ListUpdateEvaluationDTO;
 import com.br.API.GamesRating.dto.NewEvaluationDTO;
 import com.br.API.GamesRating.dto.UpdateEvaluationDTO;
 import com.br.API.GamesRating.model.Evaluation;
@@ -53,12 +54,14 @@ public class EvaluationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ListEvaluationDTO> updateEvaluation (@Valid @RequestBody UpdateEvaluationDTO updateEvaluationDTO, @PathVariable Integer id){
+    @ApiOperation(value = "Atualiza resenhas")
+    public ResponseEntity<ListUpdateEvaluationDTO> updateEvaluation (@Valid @RequestBody UpdateEvaluationDTO updateEvaluationDTO, @PathVariable Integer id){
         var upEvaluation = evaluationService.updateEvaluation(id, updateEvaluationDTO);
         return ResponseEntity.ok(upEvaluation);
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deleta resenhas")
     public ResponseEntity<Void> deleteEvaluation(@PathVariable Integer id){
         evaluationService.deleteEvaluation(id);
         return ResponseEntity.ok().build();
