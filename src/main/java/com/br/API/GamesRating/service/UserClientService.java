@@ -5,6 +5,7 @@ import com.br.API.GamesRating.exception.AuthorizationException;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.UserClient;
+import com.br.API.GamesRating.model.enums.UserProfile;
 import com.br.API.GamesRating.repository.UserRepository;
 import com.br.API.GamesRating.security.SecuritySetting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserClientService {
 
   public ListUserDTO findById(Integer id) {
     var userSS = UserService.authenticated();
-    if (userSS == null && !id.equals(userSS.getId())){
+    if (userSS == null || !userSS.hasRole(UserProfile.ADMIN) && !id.equals(userSS.getId())){
       throw new AuthorizationException("Acesso negado");
     }
 
