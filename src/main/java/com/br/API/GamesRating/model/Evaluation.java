@@ -1,6 +1,7 @@
 package com.br.API.GamesRating.model;
 
 import com.br.API.GamesRating.dto.NewEvaluationDTO;
+import com.br.API.GamesRating.dto.UpdateEvaluationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,4 +45,11 @@ public class Evaluation implements Serializable {
         this.userClient = userClient;
     }
 
+    public Evaluation(Integer id, Evaluation evaluation, UpdateEvaluationDTO evaluationDTO) {
+        this.id = id;
+        this.review = evaluationDTO.getReview();
+        this.dateCreated = evaluation.getDateCreated();
+        this.game = evaluation.getGame();
+        this.userClient = evaluation.getUserClient();
+    }
 }
