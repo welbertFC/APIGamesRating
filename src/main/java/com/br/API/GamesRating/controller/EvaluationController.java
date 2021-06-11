@@ -27,7 +27,7 @@ public class EvaluationController {
 
 
     @PostMapping
-    @ApiOperation(value = "Inserir nova resenha")
+    @ApiOperation(value = "Insert new evaluation")
     public ResponseEntity<Evaluation> insert(@Valid @RequestBody NewEvaluationDTO evaluationDTO) {
         var evaluation = evaluationService.insert(evaluationDTO);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -39,7 +39,7 @@ public class EvaluationController {
 
 
     @GetMapping("/user/{id}")
-    @ApiOperation(value = "Buscar resenhas feitas pelo ID do usuario")
+    @ApiOperation(value = "Find evaluations by id user")
     public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByUser(@PathVariable Integer id, Pageable pageable) {
         var evaluation = evaluationService.findAllByUser(id, pageable);
         return ResponseEntity.ok(evaluation);
@@ -47,21 +47,21 @@ public class EvaluationController {
 
 
     @GetMapping("/game/{id}")
-    @ApiOperation(value = "Buscar resenhas feitas pelo ID do Jogo")
+    @ApiOperation(value = "Find evaluations by id game")
     public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByGame(@PathVariable Integer id, Pageable pageable) {
         var evaluation = evaluationService.findAllByGame(id, pageable);
         return ResponseEntity.ok(evaluation);
     }
 
     @PutMapping("/{id}")
-    @ApiOperation(value = "Atualiza resenhas")
+    @ApiOperation(value = "Update evaluation")
     public ResponseEntity<ListUpdateEvaluationDTO> updateEvaluation (@Valid @RequestBody UpdateEvaluationDTO updateEvaluationDTO, @PathVariable Integer id){
         var upEvaluation = evaluationService.updateEvaluation(id, updateEvaluationDTO);
         return ResponseEntity.ok(upEvaluation);
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Deleta resenhas")
+    @ApiOperation(value = "Delete evaluation")
     public ResponseEntity<Void> deleteEvaluation(@PathVariable Integer id){
         evaluationService.deleteEvaluation(id);
         return ResponseEntity.ok().build();

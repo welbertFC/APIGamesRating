@@ -29,14 +29,14 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping
-    @ApiOperation(value = "Buscas todos os jogo")
+    @ApiOperation(value = "Find all games")
     private ResponseEntity<Page<ListGameDTO>> findAll(Pageable pageable) {
         var games = gameService.findAll(pageable);
         return ResponseEntity.ok(games);
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Buscar jogo por ID")
+    @ApiOperation(value = "Find game by ID")
     private ResponseEntity<ListGameDTO> findById(@PathVariable Integer id) {
         var game = gameService.findByIdGame(id);
         return ResponseEntity.ok(game);
@@ -44,7 +44,7 @@ public class GameController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
-    @ApiOperation(value = "Inserir novo Jogo")
+    @ApiOperation(value = "Insert new game")
     private ResponseEntity<Void> insert(
             @RequestParam("game") String game, @RequestParam("image") MultipartFile multipartFile) {
         var mapper = new ObjectMapper();
@@ -66,7 +66,7 @@ public class GameController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/{id}")
-    @ApiOperation(value = "Atualizar Jogo")
+    @ApiOperation(value = "Update the game")
     private ResponseEntity<Game> update(
             @Valid @RequestBody NewGameDTO game, @PathVariable Integer id) {
         var updateGame = gameService.update(id, game);
@@ -75,7 +75,7 @@ public class GameController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PatchMapping("/{id}/image")
-    @ApiOperation(value = "Atualizar Imagem do Jogo")
+    @ApiOperation(value = "Update Image the game")
     public ResponseEntity<Void> saveImage(
             @PathVariable Integer id, @RequestParam(name = "image") MultipartFile multipartFile) {
         var uri = gameService.updateGameImage(id, multipartFile);
@@ -83,7 +83,7 @@ public class GameController {
     }
 
     @PostMapping("/filter")
-    @ApiOperation(value = "filtrar o Jogo")
+    @ApiOperation(value = "Filter the game")
     public ResponseEntity<Page<ListGameDTO>> searchGame(@RequestBody FilterGame filterGame, Pageable pageable) {
         var listGame = gameService.searchGame(filterGame, pageable);
         return ResponseEntity.ok().body(listGame);
