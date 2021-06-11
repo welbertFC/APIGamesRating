@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/note")
-@Api(tags = "Nota do Jogo")
+@Api(tags = "Note Game")
 public class NoteController {
 
     @Autowired

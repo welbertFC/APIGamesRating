@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/like")
-@Api(tags = "Curtida")
+@Api(tags = "Like")
 public class LikeditController {
 
     @Autowired
