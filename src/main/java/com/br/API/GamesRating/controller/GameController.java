@@ -25,67 +25,67 @@ import java.io.IOException;
 @Api(tags = "Jogo")
 public class GameController {
 
-    @Autowired
-    private GameService gameService;
+  @Autowired private GameService gameService;
 
-    @GetMapping
-    @ApiOperation(value = "Find all games")
-    private ResponseEntity<Page<ListGameDTO>> findAll(Pageable pageable) {
-        var games = gameService.findAll(pageable);
-        return ResponseEntity.ok(games);
-    }
+  @GetMapping
+  @ApiOperation(value = "Find all games")
+  public ResponseEntity<Page<ListGameDTO>> findAll(Pageable pageable) {
+    var games = gameService.findAll(pageable);
+    return ResponseEntity.ok(games);
+  }
 
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Find game by ID")
-    private ResponseEntity<ListGameDTO> findById(@PathVariable Integer id) {
-        var game = gameService.findByIdGame(id);
-        return ResponseEntity.ok(game);
-    }
+  @GetMapping("/{id}")
+  @ApiOperation(value = "Find game by ID")
+  public ResponseEntity<ListGameDTO> findById(@PathVariable Integer id) {
+    var game = gameService.findByIdGame(id);
+    return ResponseEntity.ok(game);
+  }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PostMapping
-    @ApiOperation(value = "Insert new game")
-    private ResponseEntity<Void> insert(
-            @RequestParam("game") String game, @RequestParam("image") MultipartFile multipartFile) {
-        var mapper = new ObjectMapper();
-        NewGameDTO newGameDTO;
-        try {
-            newGameDTO = mapper.readValue(game, NewGameDTO.class);
-            var newGame = gameService.insert(newGameDTO, multipartFile);
-            var uri =
-                    ServletUriComponentsBuilder.fromCurrentRequest()
-                            .path("/{id}")
-                            .buildAndExpand(newGame.getId())
-                            .toUri();
-            return ResponseEntity.created(uri).build();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PostMapping
+  @ApiOperation(value = "Insert new game")
+  public ResponseEntity<Void> insert(
+      @RequestParam("game") String game, @RequestParam("image") MultipartFile multipartFile) {
+    var mapper = new ObjectMapper();
+    NewGameDTO newGameDTO;
+    try {
+      newGameDTO = mapper.readValue(game, NewGameDTO.class);
+      var newGame = gameService.insert(newGameDTO, multipartFile);
+      var uri =
+          ServletUriComponentsBuilder.fromCurrentRequest()
+              .path("/{id}")
+              .buildAndExpand(newGame.getId())
+              .toUri();
+      return ResponseEntity.created(uri).build();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return null;
+  }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PutMapping("/{id}")
-    @ApiOperation(value = "Update the game")
-    private ResponseEntity<Game> update(
-            @Valid @RequestBody NewGameDTO game, @PathVariable Integer id) {
-        var updateGame = gameService.update(id, game);
-        return ResponseEntity.ok(updateGame);
-    }
+  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PutMapping("/{id}")
+  @ApiOperation(value = "Update the game")
+  public ResponseEntity<Game> update(
+      @Valid @RequestBody NewGameDTO game, @PathVariable Integer id) {
+    var updateGame = gameService.update(id, game);
+    return ResponseEntity.ok(updateGame);
+  }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PatchMapping("/{id}/image")
-    @ApiOperation(value = "Update Image the game")
-    public ResponseEntity<Void> saveImage(
-            @PathVariable Integer id, @RequestParam(name = "image") MultipartFile multipartFile) {
-        var uri = gameService.updateGameImage(id, multipartFile);
-        return ResponseEntity.created(uri).build();
-    }
+  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PatchMapping("/{id}/image")
+  @ApiOperation(value = "Update Image the game")
+  public ResponseEntity<Void> saveImage(
+      @PathVariable Integer id, @RequestParam(name = "image") MultipartFile multipartFile) {
+    var uri = gameService.updateGameImage(id, multipartFile);
+    return ResponseEntity.created(uri).build();
+  }
 
-    @PostMapping("/filter")
-    @ApiOperation(value = "Filter the game")
-    public ResponseEntity<Page<ListGameDTO>> searchGame(@RequestBody FilterGame filterGame, Pageable pageable) {
-        var listGame = gameService.searchGame(filterGame, pageable);
-        return ResponseEntity.ok().body(listGame);
-    }
+  @PostMapping("/filter")
+  @ApiOperation(value = "Filter the game")
+  public ResponseEntity<Page<ListGameDTO>> searchGame(
+      @RequestBody FilterGame filterGame, Pageable pageable) {
+    var listGame = gameService.searchGame(filterGame, pageable);
+    return ResponseEntity.ok().body(listGame);
+  }
 }

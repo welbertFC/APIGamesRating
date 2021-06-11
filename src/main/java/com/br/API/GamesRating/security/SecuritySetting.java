@@ -25,9 +25,9 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecuritySetting extends WebSecurityConfigurerAdapter {
 
-  public static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
-  public static final String[] PUBLIC_MATCHERS_GET = {"/game/**"};
-  public static final String[] PUBLIC_MATCHERS_POST = {"/user/**"};
+  private static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
+  private static final String[] PUBLIC_MATCHERS_GET = {"/game/**"};
+  private static final String[] PUBLIC_MATCHERS_POST = {"/user/**"};
   @Autowired private Environment environment;
   @Autowired private UserDetailsService userDetailsService;
   @Autowired private JWTUtil jwtUtil;
