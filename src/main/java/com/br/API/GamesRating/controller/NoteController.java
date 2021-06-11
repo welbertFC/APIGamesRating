@@ -23,7 +23,7 @@ public class NoteController {
     private NoteService noteService;
 
     @PostMapping
-    @ApiOperation(value = "Inserir nota do Jogo")
+    @ApiOperation(value = "Insert game note")
     public ResponseEntity<Note> insert(@Valid @RequestBody NewNoteDTO newNoteDTO) {
         var note = noteService.insert(newNoteDTO);
         var uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -34,7 +34,7 @@ public class NoteController {
     }
 
     @GetMapping("/game/{id}")
-    @ApiOperation(value = "Busca todas as notas do jogo pelo Id do jogo")
+    @ApiOperation(value = "find all games note by Id game")
     public ResponseEntity<Page<Note>> findByNoteGame(@PathVariable Integer id, Pageable pageable) {
         var note = noteService.findByIdGame(id, pageable);
         return ResponseEntity.ok(note);

@@ -21,14 +21,14 @@ public class FeedController {
   @Autowired private FeedService feedService;
 
   @GetMapping
-  @ApiOperation(value = "Buscar o feed")
+  @ApiOperation(value = "find all the feed")
   public ResponseEntity<Page<FeedDTO>> findAll(Pageable pageable) {
     var feed = feedService.findAll(pageable);
     return ResponseEntity.ok(feed);
   }
 
   @GetMapping("/user/{id}")
-  @ApiOperation(value = "Buscar o feed por usuario")
+  @ApiOperation(value = "Find feed by id user")
   public ResponseEntity<Page<FeedDTO>> findUser(@PathVariable Integer id, Pageable pageable) {
     var feed = feedService.feedByUser(id, pageable);
     return ResponseEntity.ok(feed);

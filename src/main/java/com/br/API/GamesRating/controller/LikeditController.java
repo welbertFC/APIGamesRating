@@ -24,7 +24,7 @@ public class LikeditController {
     private LikeditService likeditService;
 
     @PostMapping
-    @ApiOperation(value = "Inserir e atualizar curtida")
+    @ApiOperation(value = "Insert and update like")
     public ResponseEntity<Likedit> insert(@Valid @RequestBody NewLikeditDTO likeditDTO) {
         var likedit = likeditService.insert(likeditDTO);
         var uri =
@@ -36,7 +36,7 @@ public class LikeditController {
     }
 
     @GetMapping("/user/{id}")
-    @ApiOperation(value = "Buscar todas as curtidas por Id do Usuario")
+    @ApiOperation(value = "Find all likes by ID user")
     public ResponseEntity<Page<ListLikeDto>> findallByIdUser(
             @PathVariable Integer id, Pageable pageable) {
         var listLike = likeditService.listLikeByUser(id, pageable);
