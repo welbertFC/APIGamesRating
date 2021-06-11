@@ -22,7 +22,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/game")
-@Api(tags = "Jogo")
+@Api(tags = "Game")
 public class GameController {
 
   @Autowired private GameService gameService;

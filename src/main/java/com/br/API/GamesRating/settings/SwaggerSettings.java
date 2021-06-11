@@ -20,13 +20,13 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerSettings {
 
-  private final ResponseMessage m201 = simpleMessage(201, "Recurso criado");
-  private final ResponseMessage m204put = simpleMessage(204, "Atualização ok");
-  private final ResponseMessage m204del = simpleMessage(204, "Deleção ok");
-  private final ResponseMessage m403 = simpleMessage(403, "Não autorizado");
-  private final ResponseMessage m404 = simpleMessage(404, "Não encontrado");
-  private final ResponseMessage m422 = simpleMessage(422, "Erro de validação");
-  private final ResponseMessage m500 = simpleMessage(500, "Erro inesperado");
+  private final ResponseMessage m201 = simpleMessage(201, "Resource created");
+  private final ResponseMessage m204put = simpleMessage(204, "Update ok");
+  private final ResponseMessage m204del = simpleMessage(204, "Delete ok");
+  private final ResponseMessage m403 = simpleMessage(403, "Not authorized");
+  private final ResponseMessage m404 = simpleMessage(404, "Not found");
+  private final ResponseMessage m422 = simpleMessage(422, "validation error");
+  private final ResponseMessage m500 = simpleMessage(500, "Unexpected error");
 
   @Bean
   public Docket api() {
@@ -48,11 +48,11 @@ public class SwaggerSettings {
   private ApiInfo apiInfo() {
     return new ApiInfo(
         "API Game Rating",
-        "API desenvolvida para aplicação Game Rating",
+        "API developed for a mobile application.",
         "Versão 1.3.1",
         "https://github.com/welbertFC/APIGamesRating#readme",
         new Contact("Welbert Fernandes", "https://github.com/welbertFC", "welbert.jsj@gmail.com"),
-        "Permitido uso para consultas",
+        "API for exclusive use of the mobile Games Rating application",
         "https://github.com/welbertFC/APIGamesRating#readme",
         Collections.emptyList() // Vendor Extensions
         );

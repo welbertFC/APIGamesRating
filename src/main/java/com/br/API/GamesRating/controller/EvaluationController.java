@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/evaluation")
-@Api(tags = "Resenha")
+@Api(tags = "Evaluation")
 public class EvaluationController {
 
     @Autowired
