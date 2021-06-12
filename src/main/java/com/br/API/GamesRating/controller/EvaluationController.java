@@ -1,9 +1,6 @@
 package com.br.API.GamesRating.controller;
 
-import com.br.API.GamesRating.dto.ListEvaluationDTO;
-import com.br.API.GamesRating.dto.ListUpdateEvaluationDTO;
-import com.br.API.GamesRating.dto.NewEvaluationDTO;
-import com.br.API.GamesRating.dto.UpdateEvaluationDTO;
+import com.br.API.GamesRating.dto.*;
 import com.br.API.GamesRating.model.Evaluation;
 import com.br.API.GamesRating.service.EvaluationService;
 import io.swagger.annotations.Api;
@@ -51,6 +48,13 @@ public class EvaluationController {
     public ResponseEntity<Page<ListEvaluationDTO>> findEvaluationByGame(@PathVariable Integer id, Pageable pageable) {
         var evaluation = evaluationService.findAllByGame(id, pageable);
         return ResponseEntity.ok(evaluation);
+    }
+
+    @GetMapping("/count/user/{id}")
+    @ApiOperation(value = "Count evaluation by user")
+    public ResponseEntity<CountEvaluationDTO> countEvaluationByUser(@PathVariable Integer id){
+        var countEvaluation = evaluationService.countEvaluationByUser(id);
+        return ResponseEntity.ok(countEvaluation);
     }
 
     @PutMapping("/{id}")
