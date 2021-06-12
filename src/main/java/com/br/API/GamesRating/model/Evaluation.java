@@ -35,7 +35,7 @@ public class Evaluation implements Serializable {
     private UserClient userClient;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "evaluation")
+    @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL)
     private List<Likedit> likedits = new ArrayList<>();
 
     public Evaluation(NewEvaluationDTO evaluationDTO, UserClient userClient, Game game) {
