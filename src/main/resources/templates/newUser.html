@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Order Confirmation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+<body>
+
+<div>
+    <h1>
+        Bem vindo: <span th:text="${client.name}"> </span>
+    </h1>
+    <p>
+        Conta Criada em: <span th:text="${client.dateCreated}"></span>
+    </p>
+
+    <p>
+        Estamos muitos felizes com você aqui
+    </p>
+
+</div>
+
+</body>
+</html>
