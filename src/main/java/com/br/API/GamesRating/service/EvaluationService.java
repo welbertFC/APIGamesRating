@@ -1,9 +1,6 @@
 package com.br.API.GamesRating.service;
 
-import com.br.API.GamesRating.dto.ListEvaluationDTO;
-import com.br.API.GamesRating.dto.ListUpdateEvaluationDTO;
-import com.br.API.GamesRating.dto.NewEvaluationDTO;
-import com.br.API.GamesRating.dto.UpdateEvaluationDTO;
+import com.br.API.GamesRating.dto.*;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Evaluation;
@@ -55,6 +52,11 @@ public class EvaluationService {
   public Page<ListEvaluationDTO> findAllByUser(Integer id, Pageable pageable) {
     var evaluation = evaluationRepository.findByUserClient_Id(id, pageable);
     return getListEvaluationDTOS(evaluation);
+  }
+
+  public CountEvaluationDTO countEvaluationByUser(Integer id){
+    var evaluation = evaluationRepository.countEvaluationByUserClientId(id);
+    return new CountEvaluationDTO(evaluation);
   }
 
   private Page<ListEvaluationDTO> getListEvaluationDTOS(Page<Evaluation> evaluation) {
