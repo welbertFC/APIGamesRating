@@ -8,6 +8,7 @@ import com.br.API.GamesRating.model.UserClient;
 import com.br.API.GamesRating.model.enums.UserProfile;
 import com.br.API.GamesRating.repository.UserRepository;
 import com.br.API.GamesRating.security.SecuritySetting;
+import com.br.API.GamesRating.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,22 +22,23 @@ import java.util.stream.Collectors;
 @Service
 public class UserClientService {
 
-  @Autowired
-  private SecuritySetting passwordEncoder;
-
+  @Autowired private SecuritySetting passwordEncoder;
 
   @Autowired private UserRepository userRepository;
+
+  @Autowired private EmailService emailService;
 
   public UserClient insert(NewUserDTO user) {
     validationUser(user);
     var password = passwordEncoder.bCryptPasswordEncoder().encode(user.getPassword());
-    return userRepository.save(new UserClient(user, password));
-
+    var newUser = userRepository.save(new UserClient(user, password));
+    emailService.sendOrderConfirmationHtmlEmail(newUser);
+    return newUser;
   }
 
   public ListUserDTO findById(Integer id) {
     var userSS = UserService.authenticated();
-    if (userSS == null || !userSS.hasRole(UserProfile.ADMIN) && !id.equals(userSS.getId())){
+    if (userSS == null || !userSS.hasRole(UserProfile.ADMIN) && !id.equals(userSS.getId())) {
       throw new AuthorizationException("Acesso negado");
     }
 
@@ -60,12 +62,12 @@ public class UserClientService {
     return new PageImpl<>(userList);
   }
 
-  public UserEmailDto checkEmail(CheckUserEmail email){
+  public UserEmailDto checkEmail(CheckUserEmail email) {
     var user = userRepository.findByEmail(email.getEmail());
     var userEmailDto = new UserEmailDto();
-    if(user == null){
+    if (user == null) {
       userEmailDto.setRegistered(false);
-    }else {
+    } else {
       userEmailDto.setRegistered(true);
     }
     return userEmailDto;
@@ -100,10 +102,10 @@ public class UserClientService {
       throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
     }
 
-    if(user.getUrlImage() == null || user.getUrlImage().isBlank()){
-      user.setUrlImage("https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg");
+    if (user.getUrlImage() == null || user.getUrlImage().isBlank()) {
+      user.setUrlImage(
+          "https://uploads-ssl.webflow.com/6030077fdbd53858ff7c4765/603c1ac00b9e8a080528b4ae_SalonBrillareGenericProfileAvi.jpg");
     }
-
   }
 
   public void ValidationUpdateUser(UpdateUserDTO userDTO, ListUserDTO listUserDTO) {
