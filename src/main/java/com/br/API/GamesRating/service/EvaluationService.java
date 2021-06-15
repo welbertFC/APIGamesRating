@@ -54,7 +54,7 @@ public class EvaluationService {
     return getListEvaluationDTOS(evaluation);
   }
 
-  public CountEvaluationDTO countEvaluationByUser(Integer id){
+  public CountEvaluationDTO countEvaluationByUser(Integer id) {
     var evaluation = evaluationRepository.countEvaluationByUserClientId(id);
     return new CountEvaluationDTO(evaluation);
   }
@@ -72,16 +72,15 @@ public class EvaluationService {
     return new PageImpl<>(listEvaluation);
   }
 
-  public void deleteEvaluation(Integer id){
+  public void deleteEvaluation(Integer id) {
     var evaluation = findById(id);
     evaluationRepository.delete(evaluation);
   }
 
-  public ListUpdateEvaluationDTO updateEvaluation (Integer id, UpdateEvaluationDTO evaluationDTO){
+  public ListUpdateEvaluationDTO updateEvaluation(Integer id, UpdateEvaluationDTO evaluationDTO) {
     var evaluation = findById(id);
-    var newEvaluation = evaluationRepository.save(new Evaluation(id ,evaluation, evaluationDTO));
+    var newEvaluation = evaluationRepository.save(new Evaluation(id, evaluation, evaluationDTO));
     return new ListUpdateEvaluationDTO(newEvaluation);
-
   }
 
   private Evaluation validationInsertEvaluation(NewEvaluationDTO evaluationDTO) {

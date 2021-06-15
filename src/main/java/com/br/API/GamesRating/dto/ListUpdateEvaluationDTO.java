@@ -12,21 +12,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ListUpdateEvaluationDTO {
 
-    private Integer id;
+  private Integer id;
 
-    private String review;
+  private String review;
 
-    private LocalDateTime dateCreated;
+  private LocalDateTime dateCreated;
 
-    private Integer game;
+  private Integer game;
 
-    private Integer user;
+  private Integer user;
 
-    public ListUpdateEvaluationDTO(Evaluation newEvaluation) {
-        this.id = newEvaluation.getId();
-        this.review = newEvaluation.getReview();
-        this.dateCreated = newEvaluation.getDateCreated();
-        this.game = newEvaluation.getGame().getId();
-        this.user = newEvaluation.getUserClient().getId();
-    }
+  public ListUpdateEvaluationDTO(Evaluation newEvaluation) {
+    this.id = newEvaluation.getId();
+    this.review = newEvaluation.getReview();
+    this.dateCreated = newEvaluation.getDateCreated();
+    this.game = newEvaluation.getGame().getId();
+    this.user = newEvaluation.getUserClient().getId();
+  }
 }

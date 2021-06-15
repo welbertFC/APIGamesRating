@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserEmailDto {
 
-    private Boolean registered;
+  private Boolean registered;
 }

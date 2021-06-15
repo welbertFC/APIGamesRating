@@ -13,26 +13,25 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Note implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    private Integer note;
+  private Integer note;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "userClient_id")
-    private UserClient userClient;
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "userClient_id")
+  private UserClient userClient;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "game_id")
-    private Game game;
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "game_id")
+  private Game game;
 
-    public Note(NewNoteDTO newNoteDTO, UserClient userClient, Game game) {
-        this.note = newNoteDTO.getNote();
-        this.userClient = userClient;
-        this.game = game;
-    }
-
+  public Note(NewNoteDTO newNoteDTO, UserClient userClient, Game game) {
+    this.note = newNoteDTO.getNote();
+    this.userClient = userClient;
+    this.game = game;
+  }
 }

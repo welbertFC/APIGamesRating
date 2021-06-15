@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class CountEvaluationDTO {
 
-    Integer totalEvaluation;
+  Integer totalEvaluation;
 }
