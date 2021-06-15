@@ -95,11 +95,11 @@ public class UserClientService {
     }
 
     if (userNickname != null) {
-      throw new ObjectNotSaveException("NickName já cadastrado");
+      throw new ObjectNotSaveException("Nome de usuário já cadastrado");
     }
 
     if (user.getBirthDate().until(LocalDate.now(), ChronoUnit.YEARS) < 18) {
-      throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
+      throw new ObjectNotSaveException("Usuário deve ser maior de 18 anos");
     }
 
     if (user.getUrlImage() == null || user.getUrlImage().isBlank()) {
@@ -113,12 +113,12 @@ public class UserClientService {
 
     if (userNickname != null) {
       if (!listUserDTO.getNickName().equals(userNickname.getNickName())) {
-        throw new ObjectNotSaveException("NickName já cadastrado");
+        throw new ObjectNotSaveException("Nome de usuário já cadastrado");
       }
     }
 
     if (userDTO.getBirthDate().until(LocalDate.now(), ChronoUnit.YEARS) < 18) {
-      throw new ObjectNotSaveException("Usuário deve possuir mais de 18 anos");
+      throw new ObjectNotSaveException("Usuário deve ser maior de 18 anos");
     }
   }
 }
