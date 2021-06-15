@@ -2,13 +2,17 @@ package com.br.API.GamesRating.controller;
 
 import com.br.API.GamesRating.dto.ListGameDTO;
 import com.br.API.GamesRating.dto.NewGameDTO;
+import com.br.API.GamesRating.filter.FilterGame;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.service.GameService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,24 +22,29 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/game")
+@Api(tags = "Game")
 public class GameController {
 
   @Autowired private GameService gameService;
 
   @GetMapping
-  private ResponseEntity<Page<ListGameDTO>> findAll(Pageable pageable) {
+  @ApiOperation(value = "Find all games")
+  public ResponseEntity<Page<ListGameDTO>> findAll(Pageable pageable) {
     var games = gameService.findAll(pageable);
     return ResponseEntity.ok(games);
   }
 
   @GetMapping("/{id}")
-  private ResponseEntity<ListGameDTO> findById(@PathVariable Integer id) {
+  @ApiOperation(value = "Find game by ID")
+  public ResponseEntity<ListGameDTO> findById(@PathVariable Integer id) {
     var game = gameService.findByIdGame(id);
     return ResponseEntity.ok(game);
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @PostMapping
-  private ResponseEntity<Void> insert(
+  @ApiOperation(value = "Insert new game")
+  public ResponseEntity<Void> insert(
       @RequestParam("game") String game, @RequestParam("image") MultipartFile multipartFile) {
     var mapper = new ObjectMapper();
     NewGameDTO newGameDTO;
@@ -54,17 +63,29 @@ public class GameController {
     return null;
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @PutMapping("/{id}")
-  private ResponseEntity<Game> update(
+  @ApiOperation(value = "Update the game")
+  public ResponseEntity<Game> update(
       @Valid @RequestBody NewGameDTO game, @PathVariable Integer id) {
     var updateGame = gameService.update(id, game);
     return ResponseEntity.ok(updateGame);
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN')")
   @PatchMapping("/{id}/image")
+  @ApiOperation(value = "Update Image the game")
   public ResponseEntity<Void> saveImage(
       @PathVariable Integer id, @RequestParam(name = "image") MultipartFile multipartFile) {
     var uri = gameService.updateGameImage(id, multipartFile);
     return ResponseEntity.created(uri).build();
+  }
+
+  @PostMapping("/filter")
+  @ApiOperation(value = "Filter the game")
+  public ResponseEntity<Page<ListGameDTO>> searchGame(
+      @RequestBody FilterGame filterGame, Pageable pageable) {
+    var listGame = gameService.searchGame(filterGame, pageable);
+    return ResponseEntity.ok().body(listGame);
   }
 }

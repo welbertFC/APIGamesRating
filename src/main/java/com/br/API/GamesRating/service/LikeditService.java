@@ -1,13 +1,16 @@
 package com.br.API.GamesRating.service;
 
+import com.br.API.GamesRating.dto.ListLikeDTO;
 import com.br.API.GamesRating.dto.NewLikeditDTO;
-import com.br.API.GamesRating.dto.UpdateLikeditDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Likedit;
 import com.br.API.GamesRating.model.enums.LikeditEnum;
 import com.br.API.GamesRating.repository.LikeditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -17,21 +20,40 @@ public class LikeditService {
 
   @Autowired private LikeditRepository likeditRepository;
 
-  @Autowired private UserService userService;
+  @Autowired private UserClientService userClientService;
 
   @Autowired private EvaluationService evaluationService;
 
   public Likedit insert(NewLikeditDTO likeditDTO) {
-    var likedit = validationInsert(likeditDTO);
-    return likeditRepository.save(likedit);
+    var like =
+        likeditRepository.findByUserClient_IdAndAndEvaluation_Id(
+            likeditDTO.getUser(), likeditDTO.getEvaluation());
+    if (like == null) {
+      var newLike = validationInsert(likeditDTO);
+      return likeditRepository.save(newLike);
+    } else return update(likeditDTO);
   }
 
-  public Likedit update(Integer idEvaluation, Integer idUser, UpdateLikeditDTO likeditDTO) {
-    userService.findByIdUser(idUser);
-    evaluationService.findById(idEvaluation);
-    var linkedit = likeditRepository.findByUserClient_IdAndAndEvaluation_Id(idUser, idEvaluation);
+  public Likedit update(NewLikeditDTO likeditDTO) {
+    userClientService.findByIdUser(likeditDTO.getUser());
+    evaluationService.findById(likeditDTO.getEvaluation());
+    var linkedit =
+        likeditRepository.findByUserClient_IdAndAndEvaluation_Id(
+            likeditDTO.getUser(), likeditDTO.getEvaluation());
     if (linkedit == null) throw new ObjectNotFoundException("Resenha ainda não foi Avaliada");
-    return likeditRepository.save(new Likedit(linkedit.getId(), linkedit, likeditDTO));
+    return likeditRepository.save(new Likedit(linkedit.getId(), linkedit, likeditDTO.getLikeDit()));
+  }
+
+  public Page<ListLikeDTO> listLikeByUser(Integer idUser, Pageable pageable) {
+    var list = likeditRepository.findAllByUserClient_Id(idUser, pageable);
+    var listLikedto =
+        list.stream()
+            .map(
+                obj ->
+                    new ListLikeDTO(
+                        obj.getUserClient().getId(), obj.getEvaluation().getId(), obj.getLikeDit()))
+            .collect(Collectors.toList());
+    return new PageImpl<>(listLikedto);
   }
 
   public Integer sumLike(Integer idEvaluation) {
@@ -65,15 +87,14 @@ public class LikeditService {
   }
 
   private Likedit validationInsert(NewLikeditDTO likeditDTO) {
-    var user = userService.findByIdUser(likeditDTO.getUser());
+    var user = userClientService.findByIdUser(likeditDTO.getUser());
     var evaluation = evaluationService.findById(likeditDTO.getEvaluation());
     var likes = likeditRepository.findAll();
     likes.forEach(
         obj -> {
           if (obj.getUserClient().getId().equals(likeditDTO.getUser())
               && obj.getEvaluation().getId().equals(likeditDTO.getEvaluation())) {
-            throw new ObjectNotSaveException(
-                "Usuario " + obj.getUserClient().getName() + " Já curtiu esta resenha");
+            throw new ObjectNotSaveException("Você já curtiu esta resenha");
           }
         });
 

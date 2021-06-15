@@ -1,7 +1,6 @@
 package com.br.API.GamesRating.service;
 
-import com.br.API.GamesRating.dto.ListEvaluationDTO;
-import com.br.API.GamesRating.dto.NewEvaluationDTO;
+import com.br.API.GamesRating.dto.*;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
 import com.br.API.GamesRating.model.Evaluation;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class EvaluationService {
 
-  @Autowired private UserService userService;
+  @Autowired private UserClientService userClientService;
 
   @Autowired private GameService gameService;
 
@@ -55,6 +54,11 @@ public class EvaluationService {
     return getListEvaluationDTOS(evaluation);
   }
 
+  public CountEvaluationDTO countEvaluationByUser(Integer id) {
+    var evaluation = evaluationRepository.countEvaluationByUserClientId(id);
+    return new CountEvaluationDTO(evaluation);
+  }
+
   private Page<ListEvaluationDTO> getListEvaluationDTOS(Page<Evaluation> evaluation) {
     var listEvaluation =
         evaluation.stream()
@@ -68,18 +72,26 @@ public class EvaluationService {
     return new PageImpl<>(listEvaluation);
   }
 
+  public void deleteEvaluation(Integer id) {
+    var evaluation = findById(id);
+    evaluationRepository.delete(evaluation);
+  }
+
+  public ListUpdateEvaluationDTO updateEvaluation(Integer id, UpdateEvaluationDTO evaluationDTO) {
+    var evaluation = findById(id);
+    var newEvaluation = evaluationRepository.save(new Evaluation(id, evaluation, evaluationDTO));
+    return new ListUpdateEvaluationDTO(newEvaluation);
+  }
+
   private Evaluation validationInsertEvaluation(NewEvaluationDTO evaluationDTO) {
-    var user = userService.findByIdUser(evaluationDTO.getUser());
+    var user = userClientService.findByIdUser(evaluationDTO.getUser());
     var game = gameService.findById(evaluationDTO.getGame());
     var evaluations = findAll();
     evaluations.forEach(
         obj -> {
           if (obj.getUserClient().getId().equals(evaluationDTO.getUser())
               && obj.getGame().getId().equals(evaluationDTO.getGame())) {
-            throw new ObjectNotSaveException(
-                "O Usuario: "
-                    + obj.getUserClient().getName()
-                    + " Já fez uma resenha sobre este jogo");
+            throw new ObjectNotSaveException("Você já fez uma resenha sobre este jogo");
           }
         });
 

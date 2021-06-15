@@ -50,12 +50,12 @@ public class ResourceExceptionHandler {
   public ResponseEntity<StandardException<String>> objectNotSave(
       ObjectNotSaveException e, HttpServletRequest request) {
     StandardException<String> exception =
-            new StandardException<>(
-                    HttpStatus.CONFLICT.value(),
-                    "Erro de parametro",
-                    e.getMessage(),
-                    System.currentTimeMillis(),
-                    request.getRequestURI());
+        new StandardException<>(
+            HttpStatus.CONFLICT.value(),
+            "Erro de parametro",
+            e.getMessage(),
+            System.currentTimeMillis(),
+            request.getRequestURI());
     return ResponseEntity.status(HttpStatus.CONFLICT).body(exception);
   }
 
@@ -63,12 +63,12 @@ public class ResourceExceptionHandler {
   public ResponseEntity<StandardException> file(FileException e, HttpServletRequest request) {
 
     StandardException<String> exception =
-            new StandardException<>(
-                    HttpStatus.BAD_REQUEST.value(),
-                    "Erro de Arquivo",
-                    e.getMessage(),
-                    System.currentTimeMillis(),
-                    request.getRequestURI());
+        new StandardException<>(
+            HttpStatus.BAD_REQUEST.value(),
+            "Erro de Arquivo",
+            e.getMessage(),
+            System.currentTimeMillis(),
+            request.getRequestURI());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception);
   }
 
@@ -77,12 +77,12 @@ public class ResourceExceptionHandler {
       AmazonServiceException e, HttpServletRequest request) {
     HttpStatus code = HttpStatus.valueOf(e.getErrorCode());
     StandardException<String> exception =
-            new StandardException<>(
-                    code.value(),
-                    "Erro",
-                    e.getMessage(),
-                    System.currentTimeMillis(),
-                    request.getRequestURI());
+        new StandardException<>(
+            code.value(),
+            "Erro",
+            e.getMessage(),
+            System.currentTimeMillis(),
+            request.getRequestURI());
     return ResponseEntity.status(code.value()).body(exception);
   }
 
@@ -90,12 +90,12 @@ public class ResourceExceptionHandler {
   public ResponseEntity<StandardException> amazonClient(
       AmazonClientException e, HttpServletRequest request) {
     StandardException<String> exception =
-            new StandardException<>(
-                    HttpStatus.BAD_REQUEST.value(),
-                    "Erro",
-                    e.getMessage(),
-                    System.currentTimeMillis(),
-                    request.getRequestURI());
+        new StandardException<>(
+            HttpStatus.BAD_REQUEST.value(),
+            "Erro",
+            e.getMessage(),
+            System.currentTimeMillis(),
+            request.getRequestURI());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
   }
 
@@ -123,5 +123,18 @@ public class ResourceExceptionHandler {
             System.currentTimeMillis(),
             request.getRequestURI());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(exception);
+  }
+
+  @ExceptionHandler(AuthorizationException.class)
+  public ResponseEntity<StandardException> objectNotFound(
+      AuthorizationException e, HttpServletRequest request) {
+    StandardException error =
+        new StandardException(
+            HttpStatus.FORBIDDEN.value(),
+            "Não autorizado",
+            e.getMessage(),
+            System.currentTimeMillis(),
+            request.getRequestURI());
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
   }
 }

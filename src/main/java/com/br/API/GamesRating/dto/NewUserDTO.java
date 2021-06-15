@@ -2,7 +2,6 @@ package com.br.API.GamesRating.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -26,11 +25,12 @@ public class NewUserDTO {
   @NotNull(message = "Campo email não pode ser nulo")
   private String email;
 
-  @Length(min = 6, max = 16, message = "Tamanho invalido")
   @NotBlank(message = "Campo senha é obrigatorio")
   @NotNull(message = "Campo senha não pode ser nulo")
   private String password;
 
   @NotNull(message = "Campo data de nascimento não pode ser nulo")
   private LocalDate birthDate;
+
+  private String urlImage;
 }

@@ -1,10 +1,14 @@
 package com.br.API.GamesRating.controller;
 
+import com.br.API.GamesRating.dto.ListLikeDTO;
 import com.br.API.GamesRating.dto.NewLikeditDTO;
-import com.br.API.GamesRating.dto.UpdateLikeditDTO;
 import com.br.API.GamesRating.model.Likedit;
 import com.br.API.GamesRating.service.LikeditService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,11 +17,13 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/like")
+@Api(tags = "Like")
 public class LikeditController {
 
   @Autowired private LikeditService likeditService;
 
   @PostMapping
+  @ApiOperation(value = "Insert and update like")
   public ResponseEntity<Likedit> insert(@Valid @RequestBody NewLikeditDTO likeditDTO) {
     var likedit = likeditService.insert(likeditDTO);
     var uri =
@@ -28,12 +34,11 @@ public class LikeditController {
     return ResponseEntity.created(uri).build();
   }
 
-  @PutMapping("/user/{idUser}/evaluation/{idEvaluation}")
-  public ResponseEntity<Likedit> update(
-      @Valid @RequestBody UpdateLikeditDTO likeditDTO,
-      @PathVariable Integer idUser,
-      @PathVariable Integer idEvaluation) {
-    var likedit = likeditService.update(idEvaluation, idUser, likeditDTO);
-    return ResponseEntity.ok(likedit);
+  @GetMapping("/user/{id}")
+  @ApiOperation(value = "Find all likes by ID user")
+  public ResponseEntity<Page<ListLikeDTO>> findallByIdUser(
+      @PathVariable Integer id, Pageable pageable) {
+    var listLike = likeditService.listLikeByUser(id, pageable);
+    return ResponseEntity.ok().body(listLike);
   }
 }

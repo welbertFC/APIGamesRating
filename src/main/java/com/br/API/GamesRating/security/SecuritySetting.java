@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,15 +22,27 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecuritySetting extends WebSecurityConfigurerAdapter {
 
+  private static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
+  private static final String[] PUBLIC_MATCHERS_GET = {"/game/**"};
+  private static final String[] PUBLIC_MATCHERS_POST = {"/user/**", "/auth/forgot/**"};
   @Autowired private Environment environment;
-
   @Autowired private UserDetailsService userDetailsService;
+  @Autowired private JWTUtil jwtUtil;
 
-  public static final String[] PUBLIC_MATCHERS = {"/h2-console/**", "/game/**", "/evaluation/**", "/like/**", "/note/**", "/user/**" };
-
-  public static final String[] PUBLIC_MATCHERS_GET = {"/game/**", "/feed/**"};
+  @Override
+  public void configure(WebSecurity web) {
+    web.ignoring()
+        .antMatchers(
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/**",
+            "/swagger-ui.html",
+            "/webjars/**");
+  }
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -38,10 +52,19 @@ public class SecuritySetting extends WebSecurityConfigurerAdapter {
     }
 
     httpSecurity.cors().and().csrf().disable();
-    httpSecurity.authorizeRequests()
-        .antMatchers(PUBLIC_MATCHERS).permitAll()
-        .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
-        .anyRequest().authenticated();
+    httpSecurity
+        .authorizeRequests()
+        .antMatchers(PUBLIC_MATCHERS)
+        .permitAll()
+        .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET)
+        .permitAll()
+        .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST)
+        .permitAll()
+        .anyRequest()
+        .authenticated();
+    httpSecurity.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+    httpSecurity.addFilter(
+        new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
     httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 

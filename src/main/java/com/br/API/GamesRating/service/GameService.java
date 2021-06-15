@@ -4,6 +4,7 @@ import com.br.API.GamesRating.dto.ListGameDTO;
 import com.br.API.GamesRating.dto.NewGameDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
+import com.br.API.GamesRating.filter.FilterGame;
 import com.br.API.GamesRating.model.Game;
 import com.br.API.GamesRating.repository.GameRepository;
 import com.br.API.GamesRating.repository.NoteRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,18 +47,7 @@ public class GameService {
 
   public Page<ListGameDTO> findAll(Pageable pageable) {
     var games = gameRepository.findAllByActiveTrue(pageable);
-    var gameslist =
-        games.stream()
-            .map(
-                obj -> {
-                  var note = noteRepository.avgNote(obj.getId());
-                  if (note == null) {
-                    note = 0;
-                  }
-                  return new ListGameDTO(note, obj);
-                })
-            .collect(Collectors.toList());
-
+    var gameslist = returnListGameDto(games);
     return new PageImpl<>(gameslist);
   }
 
@@ -100,5 +91,24 @@ public class GameService {
     game.setUrlImage(uri.toString());
     gameRepository.save(game);
     return uri;
+  }
+
+  public Page<ListGameDTO> searchGame(FilterGame filterGame, Pageable pageable) {
+    var gameFilter = gameRepository.searchByFilter(filterGame, pageable);
+    var gameslist = returnListGameDto(gameFilter);
+    return new PageImpl<>(gameslist);
+  }
+
+  public List<ListGameDTO> returnListGameDto(Page<Game> games) {
+    return games.stream()
+        .map(
+            obj -> {
+              var note = noteRepository.avgNote(obj.getId());
+              if (note == null) {
+                note = 0;
+              }
+              return new ListGameDTO(note, obj);
+            })
+        .collect(Collectors.toList());
   }
 }

@@ -18,6 +18,7 @@ public class FeedDTO {
   private String evaluationUser;
   private String titleGame;
   private String urlImage;
+  private String urlImageUser;
 
   @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
   private LocalDateTime dateEvaluationCreate;
@@ -36,5 +37,6 @@ public class FeedDTO {
     this.dateEvaluationCreate = evaluation.getDateCreated();
     this.like = likedit;
     this.dislike = dislike;
+    this.urlImageUser = evaluation.getUserClient().getUrlImage();
   }
 }

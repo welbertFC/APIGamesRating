@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UpdateLikeditDTO {
+public class LoginDTO {
 
-  private Integer likeDit;
+  private String email;
+  private String password;
 }
