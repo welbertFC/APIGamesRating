@@ -1,7 +1,6 @@
 package com.br.API.GamesRating.dto;
 
 import com.br.API.GamesRating.model.UserClient;
-import com.br.API.GamesRating.model.enums.UserProfile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +21,6 @@ public class ListUserDTO {
 
   @JsonFormat(pattern = "dd/MM/yyyy")
   private LocalDate birthDate;
-
 
   @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
   private LocalDateTime dateCreated;

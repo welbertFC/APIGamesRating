@@ -27,7 +27,7 @@ public class SecuritySetting extends WebSecurityConfigurerAdapter {
 
   private static final String[] PUBLIC_MATCHERS = {"/h2-console/**"};
   private static final String[] PUBLIC_MATCHERS_GET = {"/game/**"};
-  private static final String[] PUBLIC_MATCHERS_POST = {"/user/**"};
+  private static final String[] PUBLIC_MATCHERS_POST = {"/user/**", "/auth/forgot/**"};
   @Autowired private Environment environment;
   @Autowired private UserDetailsService userDetailsService;
   @Autowired private JWTUtil jwtUtil;

@@ -15,49 +15,47 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException(email);
-        }
-        return new UserSS(
-                user.getId(),
-                user.getName(),
-                user.getNickName(),
-                user.getEmail(),
-                fomateLocalDate(user.getBirthDate()),
-                fomateLocalDateTime(user.getDateCreated()),
-                user.getUrlImage(),
-                user.getPassword(),
-                user.getProfile());
-
+  @Override
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    var user = userRepository.findByEmail(email);
+    if (user == null) {
+      throw new UsernameNotFoundException(email);
     }
+    return new UserSS(
+        user.getId(),
+        user.getName(),
+        user.getNickName(),
+        user.getEmail(),
+        fomateLocalDate(user.getBirthDate()),
+        fomateLocalDateTime(user.getDateCreated()),
+        user.getUrlImage(),
+        user.getPassword(),
+        user.getProfile());
+  }
 
-    public String fomateLocalDate(LocalDate date) {
-        if (date != null) {
-            var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            try {
-                return (formatter.format(date));
-            } catch (Exception e) {
-                return "Erro na conversão da data: " + e.getLocalizedMessage();
-            }
-        }
-        return "";
+  public String fomateLocalDate(LocalDate date) {
+    if (date != null) {
+      var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      try {
+        return (formatter.format(date));
+      } catch (Exception e) {
+        return "Erro na conversão da data: " + e.getLocalizedMessage();
+      }
     }
+    return "";
+  }
 
-    public String fomateLocalDateTime(LocalDateTime date) {
-        if (date != null) {
-            var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            try {
-                return (formatter.format(date));
-            } catch (Exception e) {
-                return "Erro na conversão da data: " + e.getLocalizedMessage();
-            }
-        }
-        return "";
+  public String fomateLocalDateTime(LocalDateTime date) {
+    if (date != null) {
+      var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+      try {
+        return (formatter.format(date));
+      } catch (Exception e) {
+        return "Erro na conversão da data: " + e.getLocalizedMessage();
+      }
     }
+    return "";
+  }
 }

@@ -1,6 +1,6 @@
 package com.br.API.GamesRating.service;
 
-import com.br.API.GamesRating.dto.ListLikeDto;
+import com.br.API.GamesRating.dto.ListLikeDTO;
 import com.br.API.GamesRating.dto.NewLikeditDTO;
 import com.br.API.GamesRating.exception.ObjectNotFoundException;
 import com.br.API.GamesRating.exception.ObjectNotSaveException;
@@ -44,13 +44,13 @@ public class LikeditService {
     return likeditRepository.save(new Likedit(linkedit.getId(), linkedit, likeditDTO.getLikeDit()));
   }
 
-  public Page<ListLikeDto> listLikeByUser(Integer idUser, Pageable pageable) {
+  public Page<ListLikeDTO> listLikeByUser(Integer idUser, Pageable pageable) {
     var list = likeditRepository.findAllByUserClient_Id(idUser, pageable);
     var listLikedto =
         list.stream()
             .map(
                 obj ->
-                    new ListLikeDto(
+                    new ListLikeDTO(
                         obj.getUserClient().getId(), obj.getEvaluation().getId(), obj.getLikeDit()))
             .collect(Collectors.toList());
     return new PageImpl<>(listLikedto);

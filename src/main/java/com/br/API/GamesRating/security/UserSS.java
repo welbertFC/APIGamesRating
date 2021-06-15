@@ -24,20 +24,18 @@ public class UserSS implements UserDetails {
   private String password;
   private Collection<? extends GrantedAuthority> authorities;
 
-  @Autowired
-  private DateFormate dateFormate;
-
+  @Autowired private DateFormate dateFormate;
 
   public UserSS(
-          Integer id,
-          String name,
-          String nickname,
-          String email,
-          String birthDate,
-          String dateCreated,
-          String urlImage,
-          String password,
-          Set<UserProfile> profiles) {
+      Integer id,
+      String name,
+      String nickname,
+      String email,
+      String birthDate,
+      String dateCreated,
+      String urlImage,
+      String password,
+      Set<UserProfile> profiles) {
     this.id = id;
     this.name = name;
     this.nickname = nickname;
@@ -46,7 +44,10 @@ public class UserSS implements UserDetails {
     this.urlImage = urlImage;
     this.email = email;
     this.password = password;
-    this.authorities = profiles.stream().map(obj -> new SimpleGrantedAuthority(obj.getDescription())).collect(Collectors.toList());
+    this.authorities =
+        profiles.stream()
+            .map(obj -> new SimpleGrantedAuthority(obj.getDescription()))
+            .collect(Collectors.toList());
   }
 
   public UserSS() {}
@@ -66,7 +67,6 @@ public class UserSS implements UserDetails {
   public String getPassword() {
     return password;
   }
-
 
   @Override
   public String getUsername() {
@@ -96,5 +96,4 @@ public class UserSS implements UserDetails {
   public boolean hasRole(UserProfile profile) {
     return getAuthorities().contains(new SimpleGrantedAuthority(profile.getDescription()));
   }
-
 }

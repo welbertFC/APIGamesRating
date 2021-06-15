@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class UpdateEvaluationDTO {
 
-    @NotNull(message = "A resenha não pode ser nulo")
-    @Length(min = 5, max = 1000, message = "A resenha deve ter entre 5 e 1000 caracteres")
-    private String review;
+  @NotNull(message = "A resenha não pode ser nulo")
+  @Length(min = 5, max = 1000, message = "A resenha deve ter entre 5 e 1000 caracteres")
+  private String review;
 }

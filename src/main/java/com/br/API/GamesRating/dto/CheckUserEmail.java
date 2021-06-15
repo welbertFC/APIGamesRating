@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CheckUserEmail {
 
-    @Email(message = "Formato de email invalido")
-    @NotBlank(message = "Campo email não pode ser vazio")
-    @NotNull(message = "Campo email não pode ser nulo")
-    private String email;
+  @Email(message = "Formato de email invalido")
+  @NotBlank(message = "Campo email não pode ser vazio")
+  @NotNull(message = "Campo email não pode ser nulo")
+  private String email;
 }

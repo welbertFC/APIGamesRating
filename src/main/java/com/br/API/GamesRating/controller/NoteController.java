@@ -19,24 +19,24 @@ import javax.validation.Valid;
 @Api(tags = "Note Game")
 public class NoteController {
 
-    @Autowired
-    private NoteService noteService;
+  @Autowired private NoteService noteService;
 
-    @PostMapping
-    @ApiOperation(value = "Insert game note")
-    public ResponseEntity<Note> insert(@Valid @RequestBody NewNoteDTO newNoteDTO) {
-        var note = noteService.insert(newNoteDTO);
-        var uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(note.getId())
-                .toUri();
-        return ResponseEntity.created(uri).build();
-    }
+  @PostMapping
+  @ApiOperation(value = "Insert game note")
+  public ResponseEntity<Note> insert(@Valid @RequestBody NewNoteDTO newNoteDTO) {
+    var note = noteService.insert(newNoteDTO);
+    var uri =
+        ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(note.getId())
+            .toUri();
+    return ResponseEntity.created(uri).build();
+  }
 
-    @GetMapping("/game/{id}")
-    @ApiOperation(value = "find all games note by Id game")
-    public ResponseEntity<Page<Note>> findByNoteGame(@PathVariable Integer id, Pageable pageable) {
-        var note = noteService.findByIdGame(id, pageable);
-        return ResponseEntity.ok(note);
-    }
+  @GetMapping("/game/{id}")
+  @ApiOperation(value = "find all games note by Id game")
+  public ResponseEntity<Page<Note>> findByNoteGame(@PathVariable Integer id, Pageable pageable) {
+    var note = noteService.findByIdGame(id, pageable);
+    return ResponseEntity.ok(note);
+  }
 }
