@@ -1,6 +1,8 @@
 ## API_Games_Rating
 
 
+Documentação API: https://games-rating-api-prod.herokuapp.com/swagger-ui.html#/
+
 Game Rating trata de um aplicativo para Android e IOS desenvolvido em Flutter, onde simula uma rede social para gamers, o aplicativo dispõe de uma lista de jogos de vários gêneros e plataformas onde mostra alguma informações como título uma pequena descrição do jogo além da imagem do jogo e uma nota em estrelas, além disso o usuário ao entrar no jogo escolhido consegue visualizar resenha de outros usuários e pode avaliar a resenha.
 
 API Games Rating é desenvolvida em Java utilizando a framework Spring Boot, onde foi implementado todo o back-end da aplicação, utilizando integração com o storage S3 da amazon, banco de dados PostgreSql e Integração contínua através do github e o Heroku, com a comunicação seguindo padrões de arquitetura REST.
